@@ -26,8 +26,45 @@ SUPPORTED_LABEL = "TXT, VTT or JSON"
 _TIMESTAMP = r"(?:\d{1,2}:)?\d{1,2}:\d{2}(?:[.,]\d{1,3})?"
 _TIMESTAMP_LINE = re.compile(rf"^\s*[\[\(]?({_TIMESTAMP})[\]\)]?\s*[-–—:]?\s*(.*)$")
 _CUE_LINE = re.compile(rf"^({_TIMESTAMP})\s*-->\s*({_TIMESTAMP})")
-_SPEAKER_PREFIX = re.compile(r"^([A-Z][A-Za-z0-9 .'\-]{0,48}?)\s*[:\-–]\s+(.*)$")
 _VOICE_TAG = re.compile(r"^<v\s+([^>]+)>(.*)$", re.IGNORECASE)
+
+def extract_speaker_and_text(raw_text: str) -> tuple[str | None, str]:
+    vtt_match = _VOICE_TAG.match(raw_text)
+    if vtt_match:
+        return vtt_match.group(1).strip(), _clean_text(vtt_match.group(2))
+    
+    clean = _clean_text(raw_text)
+    
+    bracket_match = re.match(r"^\[([A-Za-z0-9][A-Za-z0-9 .'\-]{1,39})\]\s*(.*)$", clean)
+    if bracket_match:
+        return bracket_match.group(1).strip(), bracket_match.group(2).strip()
+        
+    prefix_match = re.match(r"^([A-Za-z0-9][A-Za-z0-9 .'\-]{1,39})\s*([:\-–])\s+(.*)$", clean)
+    if prefix_match:
+        speaker = prefix_match.group(1).strip()
+        sep = prefix_match.group(2)
+        text = prefix_match.group(3).strip()
+        words = speaker.split()
+        if len(words) <= 4:
+            if sep in {"-", "–"}:
+                # For hyphens, avoid matching prose like "Let's discuss - the project"
+                if len(words) == 1 or speaker.istitle() or speaker.isupper():
+                    return speaker, text
+            else:
+                return speaker, text
+            
+    return None, clean
+
+def is_standalone_speaker(text: str) -> bool:
+    if not (2 <= len(text) <= 40): return False
+    if text[-1] in {'.', ',', '!', '?', ';'}: return False
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9 .'\-]*", text): return False
+    words = text.split()
+    if not (1 <= len(words) <= 4): return False
+    lower = text.lower()
+    if lower in {"i agree", "yes", "no", "ok", "okay", "hello", "hi", "thanks", "thank you", "right", "exactly", "sure", "yep", "speaker", "unknown"}:
+        return False
+    return True
 _TAG = re.compile(r"<[^>]+>")
 _AVG_WORDS_PER_SECOND = 2.4
 
@@ -105,17 +142,8 @@ def parse_vtt(content: str) -> list[ParsedSegment]:
         start = timestamp_to_seconds(match.group(1))
         end = timestamp_to_seconds(match.group(2))
         body = " ".join(lines[cue_index + 1 :])
-        speaker = "Speaker"
-        voice = _VOICE_TAG.match(body.strip())
-        if voice:
-            speaker = voice.group(1).strip()
-            body = voice.group(2)
-        else:
-            prefixed = _SPEAKER_PREFIX.match(_clean_text(body))
-            if prefixed:
-                speaker = prefixed.group(1).strip()
-                body = prefixed.group(2)
-        text = _clean_text(body)
+        speaker_cand, text = extract_speaker_and_text(body.strip())
+        speaker = speaker_cand or "Speaker"
         if text:
             segments.append(ParsedSegment(speaker=speaker, start_seconds=start, end_seconds=max(end, start + 1), text=text))
     if not segments:
@@ -159,8 +187,15 @@ def parse_json(content: str) -> list[ParsedSegment]:
             or raw.get("speaker_name")
             or raw.get("name")
             or raw.get("user")
-            or "Speaker"
+            or ""
         ).strip()
+        
+        speaker_cand, text_clean = extract_speaker_and_text(text)
+        if not speaker and speaker_cand:
+            speaker = speaker_cand
+            text = text_clean
+            
+        speaker = speaker or "Speaker"
         start_raw = raw.get("start_seconds", raw.get("start", raw.get("startTime", raw.get("start_time", 0))))
         end_raw = raw.get("end_seconds", raw.get("end", raw.get("endTime", raw.get("end_time", None))))
         start = _coerce_seconds(start_raw)
@@ -219,23 +254,26 @@ def parse_txt(content: str) -> list[ParsedSegment]:
             start = timestamp_to_seconds(stamp_match.group(1))
             rest = stamp_match.group(2).strip()
 
-        speaker_match = _SPEAKER_PREFIX.match(rest)
-        if speaker_match:
-            speaker = speaker_match.group(1).strip()
-            text = speaker_match.group(2).strip()
+        speaker, text = extract_speaker_and_text(rest)
+        
+        if speaker:
+            last_speaker = speaker
+        elif start is None and not has_leading_timestamps and is_standalone_speaker(text):
+            last_speaker = text.strip()
+            draft.append({"speaker": last_speaker, "start_seconds": int(running_end), "text": ""})
+            continue
         elif draft and start is None and not has_leading_timestamps:
             # Timestamp-free transcript: treat this as a continuation of the previous line.
-            draft[-1]["text"] = f"{draft[-1]['text']} {line}".strip()
+            draft[-1]["text"] = f"{draft[-1]['text']} {text}".strip()
             continue
-        elif rest:
-            speaker = last_speaker or "Speaker"
-            text = rest
-        else:
+
+        if not text:
             continue
 
         if start is None:
             start = running_end
-        last_speaker = speaker or "Speaker"
+            
+        last_speaker = last_speaker or "Speaker"
         draft.append({"speaker": last_speaker, "start_seconds": int(start), "text": text})
         running_end = int(start) + estimate_duration(text)
 
@@ -268,16 +306,27 @@ def normalize_segments(segments: Iterable[ParsedSegment]) -> list[dict[str, Any]
 
     ordered = sorted(segments, key=lambda item: (item.start_seconds, item.text))
     normalized: list[dict[str, Any]] = []
+    speaker_map: dict[str, str] = {}
+    
     for segment in ordered:
         text = " ".join(segment.text.split())
         if not text:
             continue
+            
+        raw_speaker = (segment.speaker or "Speaker").strip()
+        if raw_speaker.lower() not in {"speaker", "unknown"}:
+            if raw_speaker.lower() not in speaker_map:
+                speaker_map[raw_speaker.lower()] = raw_speaker
+            raw_speaker = speaker_map[raw_speaker.lower()]
+        else:
+            raw_speaker = "Speaker"
+            
         start = max(0, int(segment.start_seconds))
         end = max(start + 1, int(segment.end_seconds))
         if normalized and start < normalized[-1]["end_seconds"]:
             start = normalized[-1]["end_seconds"]
             end = max(end, start + 1)
-        normalized.append({"speaker": segment.speaker or "Speaker", "start_seconds": start, "end_seconds": end, "text": text})
+        normalized.append({"speaker": raw_speaker, "start_seconds": start, "end_seconds": end, "text": text})
     if not normalized:
         raise TranscriptParseError("The transcript did not contain any usable segments.")
     return normalized
@@ -323,8 +372,11 @@ def duration_from_segments(segments: list[dict[str, Any]]) -> int:
 
 def participants_from_segments(segments: list[dict[str, Any]]) -> list[str]:
     names: list[str] = []
+    seen_lower: set[str] = set()
     for segment in segments:
         speaker = str(segment.get("speaker") or "").strip()
-        if speaker and speaker.lower() not in {"speaker", "unknown"} and speaker not in names:
-            names.append(speaker)
+        if speaker and speaker.lower() not in {"speaker", "unknown"}:
+            if speaker.lower() not in seen_lower:
+                seen_lower.add(speaker.lower())
+                names.append(speaker)
     return names

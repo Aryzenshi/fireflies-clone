@@ -131,3 +131,68 @@ def test_segments_are_normalised_and_monotonic() -> None:
     starts = [segment["start_seconds"] for segment in segments]
     assert starts == sorted(starts)
     assert len({segment["text"] for segment in segments}) == len(segments) - 1  # duplicate collapsed
+
+
+def test_vtt_speaker_extraction_edge_cases() -> None:
+    vtt = """WEBVTT
+    
+00:00:00.000 --> 00:00:05.400
+<v Aaryav>Hello everyone.</v>
+
+00:00:05.400 --> 00:00:10.000
+<v Priya>Let's discuss the project.
+
+00:00:10.000 --> 00:00:15.000
+<v Rahul Sharma>I'll handle the backend.</v>
+
+00:00:15.000 --> 00:00:20.000
+<v aaryav>Wait, I have a question.
+
+00:00:20.000 --> 00:00:25.000
+Just a cue without a tag.
+"""
+    segments = parse_transcript(vtt, filename="test.vtt")
+    
+    assert segments[0]["speaker"] == "Aaryav"
+    assert "Hello everyone." in segments[0]["text"]
+    
+    assert segments[1]["speaker"] == "Priya"
+    assert "Let's discuss" in segments[1]["text"]
+    
+    assert segments[2]["speaker"] == "Rahul Sharma"
+    
+    assert segments[3]["speaker"] == "Aaryav" 
+    
+    assert segments[4]["speaker"] == "Speaker"
+    
+    participants = participants_from_segments(segments)
+    assert participants == ["Aaryav", "Priya", "Rahul Sharma"]
+
+
+def test_txt_speaker_extraction_edge_cases() -> None:
+    txt = """Aaryav: Hello everyone.
+Priya - Let's discuss the project.
+[Rahul Sharma] I will handle the backend.
+Aaryav
+Wait, I have a question.
+
+I am prose with a - hyphen in the middle.
+And this is a note: do not extract me.
+"""
+    segments = parse_transcript(txt, filename="test.txt")
+    
+    assert segments[0]["speaker"] == "Aaryav"
+    assert segments[0]["text"] == "Hello everyone."
+    
+    assert segments[1]["speaker"] == "Priya"
+    assert segments[1]["text"] == "Let's discuss the project."
+    
+    assert segments[2]["speaker"] == "Rahul Sharma"
+    assert segments[2]["text"] == "I will handle the backend."
+    
+    assert segments[3]["speaker"] == "Aaryav"
+    assert segments[3]["text"] == "Wait, I have a question. I am prose with a - hyphen in the middle. And this is a note: do not extract me."
+    
+    participants = participants_from_segments(segments)
+    assert participants == ["Aaryav", "Priya", "Rahul Sharma"]
+
