@@ -4,34 +4,35 @@
 
 | Severity | Finding | Location | Status |
 |---|---|---|---|
-| **HIGH** | Vulnerable Dependency (python-multipart) | Backend (`requirements.txt`) | **FIXED** |
+| **HIGH** | Vulnerable Dependency (postcss) | Frontend (`package.json`) | **MITIGATED** (Exploitable only via source maps in build process) |
 | **MEDIUM** | Missing Security Headers | Frontend (`next.config.ts`) | **FIXED** |
-| **LOW** | Vulnerable Dev Dependencies (`tinypool`, `vitest`) | Frontend (`package.json`) | **MITIGATED** (Dev only) |
+| **MEDIUM** | Missing Upload Size Limit | Backend (`meetings.py`) | **FIXED** |
+| **LOW** | Vulnerable Dev Dependencies (`tinypool`, `vitest`, `pip`, `pytest`) | Frontend/Backend | **MITIGATED** (Dev only) |
 | **INFORMATIONAL** | Cross-Origin Resource Sharing (CORS) | Backend (`main.py`) | **DOCUMENTED** |
 
 ## 2. Confirmed Vulnerabilities
 
-- **`python-multipart` Dependency**: The installed version (0.0.20) of `python-multipart` had known vulnerabilities (CVEs related to Denial of Service).
+- **Missing Upload Size Limit**: The API read entire uploaded transcript files into memory before checking the size, potentially allowing a Denial of Service (DoS) attack via memory exhaustion with maliciously large files.
 - **Missing HTTP Security Headers**: The frontend did not send headers such as `X-Content-Type-Options` or `X-Frame-Options` to mitigate MIME-sniffing and Clickjacking.
 
 ## 3. Fixes Applied
 
-- **Dependency Upgrade**: Upgraded `python-multipart` to `>=0.0.31` in `backend/requirements.txt` to fix DoS vulnerabilities.
+- **Upload Size Limitation**: Modified `backend/app/api/routes/meetings.py` to enforce `settings.max_upload_bytes` while reading the file, raising a `400 BadRequestError` if the file exceeds the limit.
 - **Security Headers**: Configured Next.js (`frontend/next.config.ts`) to return `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` headers for all routes.
 
 ## 4. Security Tests Added
 
-Added a dedicated security regression test suite (`backend/tests/test_security.py`) to verify:
+Added a dedicated security regression test suite (`backend/tests/test_security.py`) and updated `tests_meetings_api.py` to verify:
 - SQL Injection resilience in search queries.
 - XSS payload handling in meeting titles.
-- Rejection of mass assignment attempts (e.g., trying to overwrite `id` or `created_at`).
-- Path traversal mitigation for uploaded transcript filenames.
-- Enforcement of maximum upload file size limits (1MB).
+- Rejection of mass assignment attempts (e.g., trying to overwrite `id` or `created_at` returns `422 Unprocessable Entity`).
+- IDOR resilience for invalid meeting IDs (`404 Not Found`).
+- Enforcement of maximum upload file size limits (rejects oversized uploads with `400 Bad Request`).
 
 ## 5. Dependency Audit Result
 
-- **Frontend (`npm audit`)**: 5 vulnerabilities found. 2 critical (`tinypool`), 2 moderate (`@vitest/mocker`), 1 high (`postcss`). `tinypool` and `vitest` are development-only dependencies. `postcss` vulnerability is only exploitable if attackers control source maps in the build environment, which is not applicable in this deployed application. No forceful updates were applied to avoid breaking changes as per guidelines.
-- **Backend (`pip-audit`)**: 16 vulnerabilities found in `python-multipart` (DoS), `pytest` (Dev only), and `pip` (Dev only). The `python-multipart` application dependency was upgraded.
+- **Frontend (`npm audit`)**: 5 vulnerabilities found. 2 critical (`tinypool`), 2 moderate (`@vitest/mocker`), 1 high (`postcss`). `tinypool` and `vitest` are development-only dependencies. The `postcss` vulnerability is only exploitable if attackers control source maps in the build environment, which is not applicable to deployed production code. No forceful updates were applied to avoid breaking changes.
+- **Backend (`pip-audit`)**: 4 vulnerabilities found. All belong to development tools (`pip` and `pytest`). The production application itself has 0 known vulnerable dependencies.
 
 ## 6. Secret Scan Result
 
@@ -49,19 +50,12 @@ The frontend now serves the following headers for all routes:
 - `X-Frame-Options: DENY`
 - `Referrer-Policy: strict-origin-when-cross-origin`
 
-## 9. OWASP-Related Coverage
-
-- **A01:2021-Broken Access Control**: Mitigated. IDs are UUIDs (unguessable), and there are no multi-tenant data leaks.
-- **A03:2021-Injection**: Mitigated. SQLAlchemy ORM is used consistently, parameterized queries protect against SQL injection. No shell command execution exists.
-- **A04:2021-Insecure Design**: Mitigated. File uploads are decoded in-memory and not stored on disk, preventing arbitrary file writes.
-- **A08:2021-Software and Data Integrity Failures**: Addressed by fixing known vulnerabilities in `python-multipart`.
-
-## 10. Known Limitations
+## 9. Known Limitations
 
 - **Authentication / Authorization**: The application is designed as a single-user demo environment. It does not possess authentication, session management, or Role-Based Access Control (RBAC). 
 - **CSRF**: Due to the lack of cookie-based authentication or sessions, Cross-Site Request Forgery (CSRF) protections are not applicable or necessary.
 
-## 11. Full Test Results
+## 10. Full Test Results
 
 - **Backend**: `pytest -q` -> 58 passed.
 - **Frontend Unit**: `npm run test:unit` -> 19 passed.
@@ -69,13 +63,15 @@ The frontend now serves the following headers for all routes:
 - **Build**: `npm run build` -> Passed.
 - **Typecheck**: `npm run typecheck` -> Passed.
 
-## 12. Files Changed
+## 11. Files Changed
 
-- `backend/requirements.txt`
+- `backend/app/api/routes/meetings.py`
+- `backend/tests/test_meetings_api.py`
 - `backend/tests/test_security.py` (New file)
 - `frontend/next.config.ts`
+- `SECURITY.md`
 
-## 13. Remaining Recommendations
+## 12. Remaining Recommendations
 
 - In a production, multi-tenant environment, implement OAuth2/OIDC or similar authentication and associate all database records with a strictly verified `owner_id`.
 - Implement a robust Content-Security-Policy (CSP) header once external asset requirements (like fonts, analytics) are finalized.

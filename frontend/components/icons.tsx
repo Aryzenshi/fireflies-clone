@@ -407,14 +407,13 @@ export const GoogleIcon = (p: IconProps) => (
 );
 
 export const LogoMark = ({ size = 26 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true">
-    <rect width="32" height="32" rx="9" fill="#6E68E8" />
-    <path
-      d="M16 6.5c1.9 3.1 3.1 5.1 3.1 7.6a3.1 3.1 0 0 1-6.2 0c0-.5.1-1 .3-1.5-2.3 1.3-3.7 3.6-3.7 6.2a6.5 6.5 0 0 0 13 0c0-4.2-2.9-8.3-6.5-12.3z"
-      fill="#FFFFFF"
-    />
-    <circle cx="24" cy="8" r="2.2" fill="#F2913D" />
-  </svg>
+  <img
+    src="/icon.png"
+    alt="Fireflies.ai"
+    width={size}
+    height={size}
+    className="shrink-0 object-contain rounded"
+  />
 );
 
 export const TagIcon = (p: IconProps) => (

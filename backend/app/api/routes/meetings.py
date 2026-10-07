@@ -7,6 +7,7 @@ from datetime import date, datetime
 from fastapi import APIRouter, File, Form, Query, Response, UploadFile, status
 
 from app.api.deps import MeetingServiceDep
+from app.core.config import settings
 from app.core.errors import BadRequestError
 from app.schemas import (
     DeleteResponse,
@@ -73,9 +74,11 @@ async def import_meeting(
 ) -> MeetingDetail:
     """Import a transcript file and create a meeting with AI notes."""
 
-    content = await file.read()
+    content = await file.read(settings.max_upload_bytes + 1)
     if not content:
         raise BadRequestError("The uploaded file is empty.")
+    if len(content) > settings.max_upload_bytes:
+        raise BadRequestError(f"File exceeds maximum upload size of {settings.max_upload_bytes} bytes.")
 
     parsed_started_at: datetime | None = None
     if started_at:

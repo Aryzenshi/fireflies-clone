@@ -304,6 +304,16 @@ def test_import_rejects_unsupported_file_and_empty_body(client: TestClient) -> N
     empty = client.post("/api/meetings/import", files={"file": ("empty.txt", b"", "text/plain")})
     assert empty.status_code == 400
 
+def test_import_rejects_oversized_file(client: TestClient) -> None:
+    from app.core.config import settings
+    oversized = b"0" * (settings.max_upload_bytes + 2)
+    response = client.post(
+        "/api/meetings/import",
+        files={"file": ("huge.txt", oversized, "text/plain")},
+    )
+    assert response.status_code == 400
+    assert "exceeds maximum upload size" in response.json()["detail"]
+
 
 def test_transcript_segment_update_endpoint(client: TestClient) -> None:
     meeting = client.post(
