@@ -113,16 +113,14 @@ fireflies-clone/
 │   │   │   └── health.py
 │   │   └── seed.py
 │   ├── tests/
-│   ├── requirements.txt
-│   └── README.md
+│   └── requirements.txt
 │
 ├── docs/
 │   ├── Architecture.md
 │   ├── Design.md
 │   ├── API.md
-│   ├── DATABASE.md
-│   ├── IMPLEMENTATION_PLAN.md
-│   └── CODING_AGENT_PROMPT.md
+│   └── DATABASE.md
+├── SECURITY.md
 ├── README.md
 └── .gitignore
 ```
