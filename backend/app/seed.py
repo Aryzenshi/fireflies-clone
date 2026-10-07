@@ -19,7 +19,7 @@ from datetime import date, datetime, time, timedelta
 from pathlib import Path
 from typing import Any
 
-from sqlalchemy import delete, select
+from sqlalchemy import delete, select, text
 from sqlalchemy.orm import Session
 
 from app.db.base import utcnow
@@ -248,6 +248,11 @@ def seed_database(
         result.created += 1
 
     db.commit()
+
+    if result.created > 0:
+        db.execute(text("UPDATE users SET transcription_minutes_used = (SELECT COALESCE(SUM(duration_seconds) / 60, 0) FROM meetings WHERE meetings.owner_id = users.id)"))
+        db.commit()
+
     return result
 
 

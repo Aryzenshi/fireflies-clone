@@ -22,6 +22,7 @@ SCHEMA_VERSION = "0003_meeting_comments"
 # idempotent and reviewers can upgrade an existing data/fireflies.db in place.
 COLUMN_MIGRATIONS: tuple[tuple[str, str, str], ...] = (
     ("meetings", "tags_json", "TEXT NOT NULL DEFAULT '[]'"),
+    ("users", "transcription_minutes_used", "INTEGER NOT NULL DEFAULT 0"),
 )
 
 

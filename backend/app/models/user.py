@@ -25,6 +25,7 @@ class User(Base):
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     email: Mapped[str] = mapped_column(String(200), nullable=False, unique=True)
     avatar_url: Mapped[str | None] = mapped_column(String(400), nullable=True)
+    transcription_minutes_used: Mapped[int] = mapped_column(default=0, server_default="0", nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=utcnow)
 
     meetings: Mapped[list["Meeting"]] = relationship(

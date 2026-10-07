@@ -193,13 +193,17 @@ class MeetingService:
     def get_stats(self) -> StatsOut:
         total_seconds = self.meetings.total_transcript_seconds()
         minutes = round(total_seconds / 60)
+        
+        user = self.db.get(User, settings.default_user_id)
+        minutes_used = user.transcription_minutes_used if user else minutes
+
         open_items, done_items = self.meetings.action_item_stats()
         quota = settings.transcription_minutes_quota
         return StatsOut(
             meeting_count=self.meetings.count_all(),
             transcript_minutes=minutes,
             transcription_minutes_quota=quota,
-            transcription_minutes_left=max(0, quota - minutes),
+            transcription_minutes_left=max(0, quota - minutes_used),
             open_action_items=open_items,
             completed_action_items=done_items,
             participant_count=self.meetings.participant_count(),
@@ -255,6 +259,11 @@ class MeetingService:
             meeting.duration_seconds = max(meeting.duration_seconds, duration_from_segments(segments))
 
         self._generate_summary(meeting, segments, reference_date=started_at.date())
+        
+        user = self.db.get(User, settings.default_user_id)
+        if user:
+            user.transcription_minutes_used += round(meeting.duration_seconds / 60)
+            
         self.db.commit()
         self.db.refresh(meeting)
         return serializers.meeting_detail(meeting)
