@@ -405,14 +405,19 @@ A comprehensive security audit has been completed. See [`SECURITY.md`](SECURITY.
 
 ---
 
-## Known Limitations
+## Assumptions & Known Limitations
 
-- **No real speech-to-text or recording** — transcripts are imported or pasted; playback is a simulated timeline
-- **AI summaries are heuristic** — deterministic and templated, not LLM-quality
-- **No authentication** — single demo user; `owner_id` exists in the schema for future expansion
-- **Share dialog is display-only** — no invites are sent, no permissions enforced
-- **No database migration framework** — column additions are handled in-app; schema rewrites would need Alembic
-- **Uploads limited to TXT/VTT/JSON** — max 10 MB of text content
+**Assumptions Made:**
+- **Single User Context**: Real user authentication is mocked. The backend assumes a default logged-in user (`owner_id`) for all created entities.
+- **Mocked Platform Features**: Features requiring significant third-party infrastructure—such as the real-time bot that joins live calls, calendar integrations, and CRM sync—are present in the UI as "Coming Soon" placeholders.
+- **Transcription**: Actual speech-to-text processing of audio files is out of scope. Users provide transcript text via pasting or file upload (TXT, VTT, JSON).
+- **Collaboration**: Team management, seats, and actual sharing permissions are out of scope. The share dialog operates in a display-only mock mode.
+- **AI Notes Generation**: Notes are generated via a deterministic, local, heuristic-based parser rather than relying on external LLM calls (to eliminate API key requirements and latency).
+
+**Known Limitations:**
+- **Share dialog is display-only** — no invites are actually sent via email.
+- **No database migration framework** — schema updates require manual handling or dropping the SQLite file.
+- **Uploads limited to TXT/VTT/JSON** — up to a maximum of 10 MB.
 
 ---
 

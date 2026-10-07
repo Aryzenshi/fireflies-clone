@@ -394,6 +394,7 @@ export function MeetingWorkspace({ meetingId }: { meetingId: string }) {
     try {
       await api.deleteMeeting(meetingId);
       toast.success("Meeting deleted", "Transcript, notes and action items were removed.");
+      window.dispatchEvent(new Event("refresh-stats"));
       router.push("/meetings");
     } catch (caught) {
       toast.error("Could not delete the meeting", errorMessage(caught));

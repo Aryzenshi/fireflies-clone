@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 import { useAsyncData } from "@/hooks/useAsyncData";
 import { api } from "@/lib/api";
@@ -51,5 +51,12 @@ export function useCurrentUser() {
 export function useStats() {
   const loader = useCallback(() => api.getStats(), []);
   const state = useAsyncData<Stats>(loader, []);
+
+  useEffect(() => {
+    const handler = () => void state.reload({ quiet: true });
+    window.addEventListener("refresh-stats", handler);
+    return () => window.removeEventListener("refresh-stats", handler);
+  }, [state.reload]);
+
   return state;
 }

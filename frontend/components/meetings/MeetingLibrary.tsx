@@ -133,6 +133,7 @@ export function MeetingLibrary() {
       toast.success("Meeting deleted", deleteTarget.title);
       setDeleteTarget(null);
       await reload({ quiet: true });
+      window.dispatchEvent(new Event("refresh-stats"));
     } catch (caught) {
       toast.error("Could not delete the meeting", errorMessage(caught));
     } finally {

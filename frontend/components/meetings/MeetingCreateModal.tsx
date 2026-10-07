@@ -86,6 +86,7 @@ export function MeetingCreateModal({
       toast.success("Meeting created", created.title);
       onCreated?.();
       reset();
+      window.dispatchEvent(new Event("refresh-stats"));
       router.push(`/meetings/${created.id}`);
     } catch (caught) {
       const message = errorMessage(caught);
