@@ -6,7 +6,7 @@
 
 Built with **Next.js 15** · **FastAPI** · **SQLAlchemy** · **SQLite** · **TypeScript**
 
-[![Backend Tests](https://img.shields.io/badge/backend_tests-58_passed-brightgreen?style=flat-square)](#testing)
+[![Backend Tests](https://img.shields.io/badge/backend_tests-59_passed-brightgreen?style=flat-square)](#testing)
 [![Frontend Tests](https://img.shields.io/badge/frontend_tests-19_passed-brightgreen?style=flat-square)](#testing)
 [![E2E Tests](https://img.shields.io/badge/e2e_tests-24_passed-brightgreen?style=flat-square)](#testing)
 [![TypeScript](https://img.shields.io/badge/typecheck-passing-blue?style=flat-square)](#testing)
@@ -311,7 +311,7 @@ Full API documentation available at [`docs/API.md`](docs/API.md) and via the int
 
 All test suites pass against the current codebase.
 
-### Backend — 58 tests
+### Backend — 59 tests
 
 ```bash
 cd backend && python -m pytest -q
