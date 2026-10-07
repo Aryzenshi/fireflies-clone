@@ -389,6 +389,21 @@ test("meeting title and participants edits persist", async ({ page }) => {
     const txt = readFileSync(await txtDownload.path(), "utf8");
     expect(txt).toContain("TRANSCRIPT");
     expect(txt).not.toContain("## ");
+
+    // PDF variant
+    const [pdfDownload] = await Promise.all([
+      page.waitForEvent("download"),
+      (async () => {
+        await page.getByRole("button", { name: /^Export / }).click();
+        await page.getByRole("menuitem", { name: /PDF/ }).click();
+      })(),
+    ]);
+    expect(pdfDownload.suggestedFilename()).toMatch(/\.pdf$/);
+    const pdfPath = await pdfDownload.path();
+    const pdf = readFileSync(pdfPath);
+    expect(pdf.length).toBeGreaterThan(0);
+    // basic signature check for PDF
+    expect(pdf.subarray(0, 5).toString("utf8")).toBe("%PDF-");
   });
 
   test("tags can be added, used as a filter and removed", async ({ page }) => {

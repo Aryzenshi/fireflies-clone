@@ -113,11 +113,23 @@ def test_unsupported_format_is_a_400_with_a_helpful_message(
 ) -> None:
     meeting_id = exportable_meeting["id"]
 
-    response = client.get(f"/api/meetings/{meeting_id}/export", params={"format": "pdf"})
+    response = client.get(f"/api/meetings/{meeting_id}/export", params={"format": "word"})
     assert response.status_code == 400
     assert response.json() == {
-        "detail": "Unsupported export format 'pdf'. Supported formats: markdown, txt."
+        "detail": "Unsupported export format 'word'. Supported formats: markdown, pdf, txt."
     }
+
+def test_pdf_export_is_valid(
+    client: TestClient, exportable_meeting: dict
+) -> None:
+    meeting_id = exportable_meeting["id"]
+
+    response = client.get(f"/api/meetings/{meeting_id}/export", params={"format": "pdf"})
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("application/pdf")
+    
+    body = response.content
+    assert body.startswith(b"%PDF-")
 
 
 def test_export_of_an_unknown_meeting_is_a_404(client: TestClient) -> None:

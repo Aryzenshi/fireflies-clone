@@ -8,7 +8,7 @@ Built with **Next.js 15** · **FastAPI** · **SQLAlchemy** · **SQLite** · **Ty
 
 [![Backend Tests](https://img.shields.io/badge/backend_tests-58_passed-brightgreen?style=flat-square)](#testing)
 [![Frontend Tests](https://img.shields.io/badge/frontend_tests-19_passed-brightgreen?style=flat-square)](#testing)
-[![E2E Tests](https://img.shields.io/badge/e2e_tests-23_passed-brightgreen?style=flat-square)](#testing)
+[![E2E Tests](https://img.shields.io/badge/e2e_tests-24_passed-brightgreen?style=flat-square)](#testing)
 [![TypeScript](https://img.shields.io/badge/typecheck-passing-blue?style=flat-square)](#testing)
 [![Build](https://img.shields.io/badge/build-passing-blue?style=flat-square)](#testing)
 
@@ -84,7 +84,7 @@ A faithful clone of the **Fireflies.ai Notepad / Meeting Library** experience. R
 | **Comments** | Anchor comments to transcript lines; timestamp chips seek the player |
 | **Tags** | Add/remove tags with suggestions; click a tag to filter the library |
 | **Keyboard Shortcuts** | `Space` play/pause, `←`/`→` seek ±5s (respects focused inputs) |
-| **Export** | Download notes + transcript as Markdown or plain text |
+| **Export** | Download notes + transcript as Markdown, plain text, or PDF |
 
 ### ⬆️ Uploads (`/uploads`)
 
@@ -293,7 +293,7 @@ Base URL: `/api` · All errors: `{"detail": "..."}`
 | `POST` | `/meetings/:id/action-items` | Create action item |
 | `PATCH` | `/action-items/:id` | Update action item |
 | `DELETE` | `/action-items/:id` | Delete action item |
-| `GET` | `/meetings/:id/export` | Download as Markdown or TXT |
+| `GET` | `/meetings/:id/export` | Download as Markdown, TXT, or PDF |
 | `GET` | `/meetings/:id/comments` | List comments |
 | `POST` | `/meetings/:id/comments` | Add comment (optionally anchored) |
 | `PATCH` | `/comments/:id` | Edit comment |
@@ -325,7 +325,7 @@ Covers: meeting CRUD, filters/sort, validation, transcript replacement, segment 
 cd frontend && npm run test:unit
 ```
 
-### End-to-End — 23 Playwright tests
+### End-to-End — 24 Playwright tests
 
 ```bash
 # Terminal 1: Start backend

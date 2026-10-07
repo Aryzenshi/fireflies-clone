@@ -86,7 +86,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   return (await response.json()) as T;
 }
 
-export type ExportFormat = "markdown" | "txt";
+export type ExportFormat = "markdown" | "txt" | "pdf";
 
 /** Fetch a meeting export as a Blob plus the server-chosen filename. */
 export async function fetchMeetingExport(
@@ -119,7 +119,7 @@ export async function fetchMeetingExport(
   const match = /filename="?([^";]+)"?/.exec(disposition);
   return {
     blob: await response.blob(),
-    filename: match?.[1] ?? `meeting-${meetingId}.${format === "markdown" ? "md" : "txt"}`,
+    filename: match?.[1] ?? `meeting-${meetingId}.${format === "markdown" ? "md" : format === "pdf" ? "pdf" : "txt"}`,
   };
 }
 

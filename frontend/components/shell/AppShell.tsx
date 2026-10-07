@@ -8,8 +8,16 @@ import { ToastViewport } from "@/components/ui/ToastViewport";
 import { ToastProvider, useToast } from "@/hooks/useToast";
 import { ChatIcon } from "@/components/icons";
 
+import { usePathname } from "next/navigation";
+
 function FloatingChatButton() {
   const { info } = useToast();
+  const pathname = usePathname();
+
+  if (pathname?.startsWith("/meeting/")) {
+    return null;
+  }
+
   return (
     <button
       type="button"

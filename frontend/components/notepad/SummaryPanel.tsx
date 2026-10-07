@@ -4,6 +4,7 @@ import { CopyIcon, RefreshIcon, SparklesIcon } from "@/components/icons";
 import { ActionItems } from "@/components/notepad/ActionItems";
 import { CommentsPanel } from "@/components/notepad/CommentsPanel";
 import { useToast } from "@/hooks/useToast";
+import { ExportMenu } from "@/components/notepad/ExportMenu";
 import { formatDuration } from "@/lib/format";
 import type {
   ActionItem,
@@ -111,6 +112,7 @@ export function SummaryPanel({
               <RefreshIcon size={12} className={regenerating ? "animate-spin" : ""} />
               {regenerating ? "Regenerating" : "Regenerate"}
             </button>
+            <ExportMenu meetingId={meeting.id} meetingTitle={meeting.title} />
             <button
               type="button"
               onClick={() => void copySummary()}

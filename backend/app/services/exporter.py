@@ -19,6 +19,7 @@ from app.schemas import MeetingDetail
 EXPORT_FORMATS: dict[str, dict[str, str]] = {
     "markdown": {"extension": "md", "media_type": "text/markdown; charset=utf-8"},
     "txt": {"extension": "txt", "media_type": "text/plain; charset=utf-8"},
+    "pdf": {"extension": "pdf", "media_type": "application/pdf"},
 }
 
 
@@ -194,7 +195,113 @@ def render_txt(meeting: MeetingDetail) -> str:
     return "\n".join(lines) + "\n"
 
 
-def render_export(meeting: MeetingDetail, fmt: str) -> str:
+def render_pdf(meeting: MeetingDetail) -> bytes:
+    from fpdf import FPDF
+    
+    def _sanitize_text(text: str) -> str:
+        replacements = {
+            "\u2014": "-", "\u2013": "-", "\u201c": '"', "\u201d": '"',
+            "\u2018": "'", "\u2019": "'", "\u2026": "..."
+        }
+        for k, v in replacements.items():
+            text = text.replace(k, v)
+        return text.encode('latin-1', 'replace').decode('latin-1')
+    
+    class PDF(FPDF):
+        def header(self):
+            self.set_font("helvetica", "B", 10)
+            self.cell(0, 10, "Meeting Export", border=False, align="R", new_x="LMARGIN", new_y="NEXT")
+            self.set_y(self.get_y() + 5)
+            
+        def footer(self):
+            self.set_y(-15)
+            self.set_font("helvetica", "I", 8)
+            self.cell(0, 10, f"Page {self.page_no()}/{{nb}}", align="C")
+
+    pdf = PDF()
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.add_page()
+    
+    # Title
+    pdf.set_font("helvetica", "B", 16)
+    pdf.write(10, _sanitize_text(meeting.title) + "\n\n")
+    
+    def write_pair(key: str, value: str):
+        pdf.set_font("helvetica", "B", 10)
+        pdf.write(8, key + " ")
+        pdf.set_font("helvetica", "", 10)
+        pdf.write(8, value + "\n")
+
+    # Metadata
+    write_pair("Date:", _sanitize_text(_format_date(meeting.started_at)))
+    write_pair("Duration:", _sanitize_text(_duration(meeting.duration_seconds)))
+    write_pair("Host:", _sanitize_text(meeting.host_name or "—"))
+
+    if meeting.participants:
+        write_pair("Participants:", _sanitize_text(", ".join(p.name for p in meeting.participants)))
+    if meeting.tags:
+        write_pair("Tags:", _sanitize_text(", ".join(meeting.tags)))
+    
+    def section_title(title: str):
+        pdf.write(4, "\n")
+        pdf.set_font("helvetica", "B", 14)
+        pdf.write(10, _sanitize_text(title) + "\n")
+        pdf.set_font("helvetica", "", 10)
+        
+    summary = meeting.summary
+    if summary.overview:
+        section_title("Summary")
+        pdf.write(6, _sanitize_text(summary.overview) + "\n\n")
+        
+    if summary.key_points:
+        section_title("Key points")
+        for point in summary.key_points:
+            pdf.write(6, _sanitize_text(f"* {point}") + "\n")
+        pdf.write(6, "\n")
+        
+    if summary.sections:
+        section_title("Chapters & outline")
+        for section in summary.sections:
+            stamp = f" - {_format_timestamp(section.timestamp_seconds)}" if section.timestamp_seconds is not None else ""
+            pdf.set_font("helvetica", "B", 11)
+            pdf.write(8, _sanitize_text(f"{section.title}{stamp}") + "\n")
+            pdf.set_font("helvetica", "", 10)
+            for bullet in section.bullets:
+                pdf.write(6, _sanitize_text(f"* {bullet}") + "\n")
+            pdf.write(6, "\n")
+        
+    if summary.topics:
+        section_title("Topics")
+        pdf.write(6, _sanitize_text(", ".join(summary.topics)) + "\n\n")
+        
+    if meeting.action_items:
+        done = sum(1 for item in meeting.action_items if item.completed)
+        section_title(f"Action items ({done}/{len(meeting.action_items)} complete)")
+        for item in meeting.action_items:
+            mark = "[x]" if item.completed else "[ ]"
+            details: list[str] = []
+            if item.assignee:
+                details.append(f"assignee: {item.assignee}")
+            if item.due_date:
+                details.append(f"due: {item.due_date.isoformat()}")
+            suffix = f" ({'; '.join(details)})" if details else ""
+            pdf.write(6, _sanitize_text(f"{mark} {item.title}{suffix}") + "\n")
+        pdf.write(6, "\n")
+        
+    segments = meeting.transcript.segments
+    if segments:
+        section_title("Transcript")
+        for segment in segments:
+            pdf.set_font("helvetica", "B", 10)
+            pdf.write(6, _sanitize_text(f"[{_format_timestamp(segment.start_seconds)}] {segment.speaker}: "))
+            pdf.set_font("helvetica", "", 10)
+            pdf.write(6, _sanitize_text(f"{segment.text}\n"))
+        
+    return bytes(pdf.output())
+
+def render_export(meeting: MeetingDetail, fmt: str) -> str | bytes:
     if fmt == "markdown":
         return render_markdown(meeting)
+    if fmt == "pdf":
+        return render_pdf(meeting)
     return render_txt(meeting)

@@ -11,6 +11,7 @@ import {
   WaveIcon,
 } from "@/components/icons";
 import { TranscriptLine } from "@/components/notepad/TranscriptLine";
+import { ExportMenu } from "@/components/notepad/ExportMenu";
 import { EmptyState } from "@/components/ui/States";
 import { useToast } from "@/hooks/useToast";
 import { findMatches } from "@/lib/transcript";
@@ -18,6 +19,8 @@ import type { TranscriptMatch } from "@/lib/transcript";
 import type { TranscriptSegment } from "@/lib/types";
 
 export interface TranscriptPanelProps {
+  meetingId: string;
+  meetingTitle: string;
   segments: TranscriptSegment[];
   activeSegmentId: string | null;
   onSeekSegment: (segment: TranscriptSegment) => void;
@@ -36,6 +39,8 @@ export interface TranscriptPanelProps {
  * so clicking a line still seeks the shared player.
  */
 export function TranscriptPanel({
+  meetingId,
+  meetingTitle,
   segments,
   activeSegmentId,
   onSeekSegment,
@@ -196,6 +201,8 @@ export function TranscriptPanel({
             <WaveIcon size={13} />
             Follow
           </button>
+
+          <ExportMenu meetingId={meetingId} meetingTitle={meetingTitle} />
 
           <button
             type="button"

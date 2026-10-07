@@ -78,7 +78,7 @@ export function SeekBar({
           onSeek(max);
         }
       }}
-      className="group relative flex h-4 cursor-pointer touch-none items-center rounded-full focus-visible:outline-none"
+      className="group relative flex h-4 w-full cursor-pointer touch-none items-center rounded-full focus-visible:outline-none"
     >
       <div className={`w-full rounded-full bg-[#E3E5EB] transition-all ${dragging ? "h-[5px]" : "h-[4px] group-hover:h-[5px]"}`}>
         <div

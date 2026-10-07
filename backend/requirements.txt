@@ -4,6 +4,7 @@ uvicorn[standard]==0.38.0
 SQLAlchemy==2.1.3
 pydantic==2.13.4
 python-multipart==0.0.32
+fpdf2==2.8.9
 
 # Test-only requirements (also installed by `pip install -r requirements-dev.txt`)
 pytest==8.4.2

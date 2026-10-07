@@ -1,7 +1,6 @@
 "use client";
 
 import { PauseIcon, PlayIcon, RewindIcon, ForwardIcon, WaveIcon } from "@/components/icons";
-import { ExportMenu } from "@/components/notepad/ExportMenu";
 import { Avatar } from "@/components/ui/Avatar";
 import { SeekBar } from "@/components/ui/SeekBar";
 import { useToast } from "@/hooks/useToast";
@@ -154,7 +153,6 @@ export function MediaPlayer({
             <WaveIcon size={13} />
             Sync with audio
           </button>
-          <ExportMenu meetingId={meetingId} meetingTitle={meetingTitle} />
         </div>
       </div>
     </section>

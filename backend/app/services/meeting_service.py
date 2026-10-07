@@ -101,7 +101,7 @@ class MeetingService:
             raise NotFoundError(f"Meeting '{meeting_id}' was not found.")
         return meeting
 
-    def export_meeting(self, meeting_id: str, fmt: str) -> tuple[str, str, str]:
+    def export_meeting(self, meeting_id: str, fmt: str) -> tuple[str, str, str | bytes]:
         """Render a meeting as a downloadable document.
 
         Returns ``(filename, media_type, content)`` so the route stays free of

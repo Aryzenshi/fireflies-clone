@@ -20,6 +20,12 @@ const FORMATS: { id: ExportFormat; label: string; description: string; icon: Rea
     description: "Same content, no markup",
     icon: <CopyIcon size={14} />,
   },
+  {
+    id: "pdf",
+    label: "PDF document (.pdf)",
+    description: "Printable meeting document",
+    icon: <FileTextIcon size={14} />,
+  },
 ];
 
 /**

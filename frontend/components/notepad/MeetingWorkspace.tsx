@@ -443,6 +443,8 @@ export function MeetingWorkspace({ meetingId }: { meetingId: string }) {
 
   const transcriptPanel = (
     <TranscriptPanel
+      meetingId={meeting.id}
+      meetingTitle={meeting.title}
       segments={segments}
       activeSegmentId={activeSegmentId}
       onSeekSegment={seekToSegment}
