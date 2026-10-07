@@ -1,0 +1,18 @@
+# Backend (FastAPI + SQLAlchemy + SQLite)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local SQLite database + runtime data
+data/
+*.db
+*.db-journal
+*.sqlite3
+
+# Environment
+.env
+.env.local

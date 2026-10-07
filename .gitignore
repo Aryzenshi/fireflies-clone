@@ -1,0 +1,58 @@
+# ----------------------------------------------------------------------
+# Root-level .gitignore
+# (Note: backend/ and frontend/ have their own specific .gitignores too)
+# ----------------------------------------------------------------------
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+ENV/
+
+# Node.js
+node_modules/
+.next/
+out/
+dist/
+build/
+.npm/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Databases & Runtime Data
+*.sqlite3
+*.db
+*.db-journal
+backend/data/
+
+# Testing & Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+test-results/
+playwright-report/
+blob-report/
+coverage/
+.vitest/
+
+# Compiled TypeScript
+*.tsbuildinfo
+next-env.d.ts

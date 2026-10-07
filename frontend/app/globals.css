@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ * Design tokens (docs/Design.md §15-16), sampled from the reference
+ * screenshots of the Fireflies desktop app.
+ * ------------------------------------------------------------------ */
+@theme {
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "SFMono-Regular", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-sidebar: #334261;
+  --color-sidebar-hover: #3d5277;
+  --color-sidebar-active: #29354f;
+  --color-sidebar-border: #405578;
+  --color-sidebar-text: #e7ecf4;
+  --color-sidebar-muted: #a9b6cd;
+
+  --color-canvas: #f4f6fa;    /* content area behind white cards (image-1 library) */
+  --color-app: #f4f6fa;      /* page canvas behind white cards (measured off image-1) */
+  --color-surface: #fafafa;   /* notepad notes column / hover fill */
+  --color-surface-muted: #f4f6f8;
+  --color-border: #e5e7eb;
+  --color-border-strong: #d8dbe3;
+
+  --color-ink: #17181c;
+  --color-ink-soft: #3f4351;
+  --color-muted: #7b8190;
+  --color-muted-soft: #9aa0ad;
+
+  --color-primary: #6e68e8;
+  --color-primary-hover: #5b54dc;
+  --color-primary-soft: #f0edff;
+  --color-primary-border: #ddd6ff;
+
+  --color-accent-orange: #f2913d;
+  --color-accent-orange-soft: #fff2e2;
+
+  --color-danger: #d84b5b;
+  --color-danger-soft: #fdeef0;
+  --color-success: #40a36c;
+  --color-success-soft: #e9f7ef;
+
+  --color-highlight: #efe9ff;
+  --color-highlight-active: #6e68e8;
+
+  /* Reference screenshots are 860px wide and the supplied notepad capture shows both
+     panels side by side at that width, so the split starts at 860px rather than 900px. */
+  --breakpoint-note: 860px;
+
+  --radius-panel: 12px;
+  --radius-control: 9px;
+
+  --shadow-panel: 0 1px 2px rgba(20, 22, 34, 0.04);
+  --shadow-pop: 0 10px 30px rgba(19, 21, 35, 0.12), 0 2px 6px rgba(19, 21, 35, 0.06);
+  --shadow-modal: 0 24px 60px rgba(15, 17, 28, 0.28);
+
+  --animate-fade-in: fade-in 0.16s ease-out;
+  --animate-pop-in: pop-in 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-toast-in: toast-in 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+/* ------------------------------------------------------------------ *
+ * Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--color-app);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-primary-soft);
+    color: var(--color-primary-hover);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-muted-soft);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Utilities
+ * ------------------------------------------------------------------ */
+@layer utilities {
+  .scroll-area {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #d5d8e0 transparent;
+  }
+
+  /* The reference sidebar shows a slim light thumb against the dark panel. */
+  .scroll-area-dark {
+    scrollbar-color: #5d6c8b transparent;
+  }
+
+  .scroll-area-dark::-webkit-scrollbar-thumb {
+    background-color: #5d6c8b;
+  }
+
+  .scroll-area::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .scroll-area::-webkit-scrollbar-thumb {
+    background-color: #d5d8e0;
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background-clip: content-box;
+  }
+
+  .scroll-area::-webkit-scrollbar-thumb:hover {
+    background-color: #bcc1cd;
+    background-clip: content-box;
+  }
+
+  .scroll-area::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .drag-none {
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+}

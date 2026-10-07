@@ -1,0 +1,22 @@
+# Frontend (Next.js + TypeScript)
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Testing / tooling
+coverage/
+.vitest/
+*.tsbuildinfo
+next-env.d.ts
+.eslintcache
+
+# Playwright
+playwright-report/
+test-results/

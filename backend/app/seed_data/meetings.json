@@ -1,0 +1,1083 @@
+{
+  "_comment": "Original sample content written for this assignment. started_at is expressed relative to the day the seed runs so the library always looks recent.",
+  "meetings": [
+    {
+      "id": "mtg_weekly_product_sync",
+      "title": "Weekly Product Sync",
+      "days_ago": 1,
+      "time": "09:00",
+      "host_name": "Aaron Kantor",
+      "participants": [
+        "Aaron Kantor",
+        "Maya Chen",
+        "Priya Raghunathan",
+        "Daniel Okafor"
+      ],
+      "overview": "Weekly Product Sync covered onboarding funnel instrumentation, the mobile release candidate and the follow-up flow decision to group reminder emails. Maya owns the instrumentation PR, Daniel owns the release blocker triage, and Priya will map the V2 metrics against the Q3 OKR review scheduled for Thursday.",
+      "key_points": [
+        "Onboarding drop-off is concentrated on the workspace-invite step: 38% of trial workspaces never invite a teammate.",
+        "The mobile release candidate 2.4.0 has passed internal QA; the crashing export path is the only blocker left.",
+        "Reminder emails will be batched to one daily digest instead of per-activity notifications.",
+        "Support tickets about duplicate transcripts dropped 22% after the retry change shipped last sprint.",
+        "Q3 OKR review is scheduled for Thursday and needs the activation metric definition locked first."
+      ],
+      "topics": [
+        "Onboarding",
+        "Mobile Release",
+        "Metrics",
+        "Notifications",
+        "Support Tickets"
+      ],
+      "sections": [
+        {
+          "title": "Onboarding funnel",
+          "timestamp_seconds": 0,
+          "bullets": [
+            "38% of trial workspaces never reach the invite step; the drop is sharpest on mobile web.",
+            "Instrumentation PR will add step-level events so we can separate intent from friction."
+          ]
+        },
+        {
+          "title": "Release readiness",
+          "timestamp_seconds": 372,
+          "bullets": [
+            "RC 2.4.0 passed internal QA on Tuesday; the export crash is the remaining blocker.",
+            "Daniel is triaging the crash today and will decide whether to cut 2.4.0 or ship 2.4.1."
+          ]
+        },
+        {
+          "title": "Notifications experiment",
+          "timestamp_seconds": 744,
+          "bullets": [
+            "Per-activity reminder emails are being replaced by a single daily digest.",
+            "The digest will respect the workspace timezone setting that shipped last month."
+          ]
+        },
+        {
+          "title": "Metrics and Q3 review",
+          "timestamp_seconds": 1086,
+          "bullets": [
+            "Activation needs one agreed definition before the OKR review on Thursday.",
+            "Priya will map the existing V2 metrics sheet to the new definition."
+          ]
+        }
+      ],
+      "action_items": [
+        {
+          "title": "Open the onboarding instrumentation PR with step-level events",
+          "assignee": "Maya Chen",
+          "due_in_days": 2,
+          "completed": false
+        },
+        {
+          "title": "Triage the mobile export crash and confirm the 2.4.0 release call",
+          "assignee": "Daniel Okafor",
+          "due_in_days": 1,
+          "completed": false
+        },
+        {
+          "title": "Draft the activation metric definition for the Q3 review",
+          "assignee": "Priya Raghunathan",
+          "due_in_days": 3,
+          "completed": false
+        },
+        {
+          "title": "Update the support dashboard filter for duplicate transcripts",
+          "assignee": "Maya Chen",
+          "due_in_days": 5,
+          "completed": true
+        },
+        {
+          "title": "Share the digest copy with the customer success team",
+          "assignee": "Aaron Kantor",
+          "due_in_days": 4,
+          "completed": false
+        }
+      ],
+      "transcript": [
+        {
+          "speaker": "Aaron Kantor",
+          "start": 0,
+          "text": "Let's get started. I want to spend the first block on the onboarding funnel because the numbers look flat again this week."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 18,
+          "text": "Flat is generous. Trial workspaces that reach the invite step dropped from 46% to 38%, and almost all of that is mobile web."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 41,
+          "text": "Do we know whether people are bouncing or just failing silently on that screen?"
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 52,
+          "text": "That's the problem, we cannot tell yet. The current events fire on the workspace creation, not on each onboarding step."
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 74,
+          "text": "I pulled the session recordings on Monday. Nine of twelve recordings show people tapping the invite field and nothing happening because autofill suggests a personal address."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 96,
+          "text": "I'll open the instrumentation PR with step-level events so we can separate intent from friction. It should be up by Wednesday."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 118,
+          "text": "Good. While that lands, how close are we on the mobile release candidate?"
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 131,
+          "text": "RC 2.4.0 passed internal QA on Tuesday. The only blocker is the export crash on Android 15 when the transcript is longer than ten minutes."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 158,
+          "text": "I'm triaging it today. If it's the chunked writer we can patch it in a point release, otherwise we cut 2.4.1 next week."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 181,
+          "text": "Let's not hold the release for more than a day. A point release is acceptable if the fix is contained."
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 196,
+          "text": "Related note, support tickets about duplicate transcripts dropped 22% after the retry change shipped last sprint. That change is paying off."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 218,
+          "text": "Nice. Now notifications, where did we land on the reminder emails?"
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 231,
+          "text": "The data says per-activity reminders are noise. We are going to group everything into a single daily digest that respects the workspace timezone."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 256,
+          "text": "Can we make the digest opt-out per workspace rather than per user? Support gets nervous when notification settings change twice in a quarter."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 279,
+          "text": "Agreed, workspace level first, per-user override later. I'll share the digest copy with the customer success team before we enable it."
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 302,
+          "text": "The Q3 OKR review is Thursday. We cannot present activation without one agreed definition of it."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 320,
+          "text": "Right, that's the priority. Priya, can you map the existing V2 metrics sheet to a single activation definition?"
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 338,
+          "text": "I'll draft the definition and flag the places where the current sheet disagrees with it. That should be ready for Thursday morning."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 356,
+          "text": "Once the definition is locked I can wire the dashboard to it, but not before Thursday."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 372,
+          "text": "Perfect. Let's move on to release risks and then wrap with the support dashboard cleanup."
+        }
+      ],
+      "duration_target_seconds": 1750,
+      "tags": [
+        "product",
+        "planning",
+        "weekly"
+      ]
+    },
+    {
+      "id": "mtg_design_review",
+      "title": "Design Review",
+      "days_ago": 2,
+      "time": "11:30",
+      "host_name": "Maya Chen",
+      "participants": [
+        "Maya Chen",
+        "Rohan Iyer",
+        "Elena Petrova"
+      ],
+      "overview": "Design Review walked through the transcript notepad refresh and the empty-state illustrations. The team agreed to keep the two-panel notepad, replace the blue tint on active transcript rows with a purple wash, and ship the simplified share dialog. Rohan will prepare the motion spec and Elena will validate contrast in the dark sidebar.",
+      "key_points": [
+        "The two-panel notepad layout stays; only spacing and the active row treatment change.",
+        "Active transcript rows will use a soft purple wash plus a left indicator instead of a solid tint.",
+        "The share dialog loses the permission matrix for launch and keeps the copy-link row.",
+        "Contrast in the dark sidebar fails AA on three secondary labels and needs new tokens.",
+        "Illustration set will be simplified to two variants to keep bundle size flat."
+      ],
+      "topics": [
+        "Notepad",
+        "Accessibility",
+        "Share Dialog",
+        "Illustrations"
+      ],
+      "sections": [
+        {
+          "title": "Notepad refresh",
+          "timestamp_seconds": 0,
+          "bullets": [
+            "Structural layout is validated; changes are limited to spacing and the active row treatment.",
+            "Mobile stacks the summary above the transcript with the player pinned."
+          ]
+        },
+        {
+          "title": "Share dialog",
+          "timestamp_seconds": 402,
+          "bullets": [
+            "Permission matrix is deferred; copy-link stays in the first release.",
+            "Invite field gets a domain suggestion list once the API supports it."
+          ]
+        },
+        {
+          "title": "Accessibility pass",
+          "timestamp_seconds": 826,
+          "bullets": [
+            "Three sidebar labels fall below 4.5:1 against the deep blue background.",
+            "Focus rings need a visible offset on the transcript list."
+          ]
+        }
+      ],
+      "action_items": [
+        {
+          "title": "Prepare the motion spec for the active transcript row",
+          "assignee": "Rohan Iyer",
+          "due_in_days": 3,
+          "completed": false
+        },
+        {
+          "title": "Update sidebar tokens to pass AA contrast",
+          "assignee": "Elena Petrova",
+          "due_in_days": 2,
+          "completed": false
+        },
+        {
+          "title": "Reduce the illustration set to two variants",
+          "assignee": "Rohan Iyer",
+          "due_in_days": 6,
+          "completed": true
+        },
+        {
+          "title": "Review the share dialog copy with support",
+          "assignee": "Maya Chen",
+          "due_in_days": 4,
+          "completed": false
+        }
+      ],
+      "transcript": [
+        {
+          "speaker": "Maya Chen",
+          "start": 0,
+          "text": "The goal today is to close out the notepad refresh so engineering can start on Monday."
+        },
+        {
+          "speaker": "Rohan Iyer",
+          "start": 14,
+          "text": "Structurally the two-panel layout tested well. Everyone found the summary on the left and the transcript on the right without instructions."
+        },
+        {
+          "speaker": "Elena Petrova",
+          "start": 34,
+          "text": "The only confusion was the active row. The solid blue tint reads like a selection, so people expected a bulk action."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 52,
+          "text": "So we replace it with a soft purple wash plus the left indicator bar. That matches the accent we already use for playback."
+        },
+        {
+          "speaker": "Rohan Iyer",
+          "start": 71,
+          "text": "I'll prepare the motion spec for that. The wash should fade in over 120 milliseconds, no easing bounce."
+        },
+        {
+          "speaker": "Elena Petrova",
+          "start": 88,
+          "text": "While we're in there, three sidebar labels fail contrast against the deep blue. The muted grey is too light."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 106,
+          "text": "Then we fix the tokens rather than the labels. Elena, can you update the sidebar tokens so everything passes AA?"
+        },
+        {
+          "speaker": "Elena Petrova",
+          "start": 122,
+          "text": "Yes, I'll re-run the contrast audit and update the tokens. Two days is realistic."
+        },
+        {
+          "speaker": "Rohan Iyer",
+          "start": 138,
+          "text": "What about the share dialog? The permission matrix was in the last review."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 152,
+          "text": "We decided to keep the copy-link row and defer the permission matrix. Nobody in testing understood group permissions anyway."
+        },
+        {
+          "speaker": "Elena Petrova",
+          "start": 171,
+          "text": "Agreed. The invite field should get domain suggestions later, but not in this release."
+        },
+        {
+          "speaker": "Rohan Iyer",
+          "start": 189,
+          "text": "Fine by me. I'll also reduce the illustration set to two variants so the bundle stays flat."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 205,
+          "text": "One more thing, focus rings need an offset on the transcript list. Keyboard users lose the ring against the text."
+        },
+        {
+          "speaker": "Elena Petrova",
+          "start": 223,
+          "text": "I'll fold that into the accessibility pass with the sidebar tokens."
+        },
+        {
+          "speaker": "Rohan Iyer",
+          "start": 236,
+          "text": "Then we're done. I'll have the motion spec and the trimmed illustrations ready by Thursday."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 252,
+          "text": "Great. Let's review the share dialog copy with support before we freeze strings."
+        }
+      ],
+      "duration_target_seconds": 2492,
+      "tags": [
+        "design",
+        "product"
+      ]
+    },
+    {
+      "id": "mtg_engineering_standup",
+      "title": "Engineering Standup",
+      "days_ago": 3,
+      "time": "09:45",
+      "host_name": "Daniel Okafor",
+      "participants": [
+        "Daniel Okafor",
+        "Maya Chen",
+        "Sofia Almeida",
+        "Tom Whitaker",
+        "Priya Raghunathan"
+      ],
+      "overview": "Engineering Standup focused on the transcript worker queue backlog, the flaky upload test and the decision to pin the Python runtime for the worker image. Sofia will drain the backlog with a batch size bump, Tom will stabilise the upload test, and the runtime pin ships today to unblock the container build.",
+      "key_points": [
+        "Transcript worker backlog peaked at 240 jobs overnight and is draining at 80 jobs per hour.",
+        "Batch size can safely double because the queue depth is dominated by very short uploads.",
+        "The upload integration test is flaky because it asserts on wall-clock latency.",
+        "Worker container image will pin the Python runtime after the build broke twice this week.",
+        "No production incidents in the last seven days."
+      ],
+      "topics": [
+        "Worker Queue",
+        "Flaky Tests",
+        "Containers",
+        "Incidents"
+      ],
+      "sections": [
+        {
+          "title": "Queue health",
+          "timestamp_seconds": 0,
+          "bullets": [
+            "Backlog peaked at 240 jobs overnight; drain rate is 80 jobs per hour.",
+            "Batch size increases from 25 to 50 because jobs are mostly short uploads."
+          ]
+        },
+        {
+          "title": "Test stability",
+          "timestamp_seconds": 268,
+          "bullets": [
+            "Upload integration test asserts wall-clock latency and fails under parallel load.",
+            "Tom will replace the timing assertion with a deterministic callback check."
+          ]
+        },
+        {
+          "title": "Container hygiene",
+          "timestamp_seconds": 512,
+          "bullets": [
+            "Python runtime is pinned in the worker image to stop the base-image drift.",
+            "Image build moves to the same lockfile-driven step as the API service."
+          ]
+        }
+      ],
+      "action_items": [
+        {
+          "title": "Raise the worker batch size and monitor the overnight backlog",
+          "assignee": "Sofia Almeida",
+          "due_in_days": 1,
+          "completed": false
+        },
+        {
+          "title": "Replace the wall-clock assertion in the upload test",
+          "assignee": "Tom Whitaker",
+          "due_in_days": 2,
+          "completed": false
+        },
+        {
+          "title": "Pin the Python runtime in the worker container image",
+          "assignee": "Daniel Okafor",
+          "due_in_days": 0,
+          "completed": true
+        },
+        {
+          "title": "Add a dashboard panel for queue drain rate",
+          "assignee": "Sofia Almeida",
+          "due_in_days": 5,
+          "completed": false
+        }
+      ],
+      "transcript": [
+        {
+          "speaker": "Daniel Okafor",
+          "start": 0,
+          "text": "Quick standup today. Sofia, you had the queue alert overnight, what happened?"
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 11,
+          "text": "The transcript worker backlog peaked at 240 jobs around two in the morning. Nothing dropped, but we drained at 80 jobs per hour."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 29,
+          "text": "Is the backlog depth coming from long recordings or from lots of tiny uploads?"
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 40,
+          "text": "Mostly tiny uploads. Median job is under ninety seconds, so the per-job overhead is what hurts us."
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 56,
+          "text": "I'll raise the batch size from 25 to 50 and watch the backlog overnight. If the latency stays flat we keep it."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 74,
+          "text": "Do it. I'd rather find the ceiling with a canary than guess. Tom, the upload test?"
+        },
+        {
+          "speaker": "Tom Whitaker",
+          "start": 89,
+          "text": "It's still flaky. The test asserts on wall-clock latency, which is nonsense when the runner is under parallel load."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 106,
+          "text": "That has failed three times this week and it always fails on the same assertion. Let's make it deterministic."
+        },
+        {
+          "speaker": "Tom Whitaker",
+          "start": 121,
+          "text": "Agreed, I'll replace the timing assertion with a callback check and mark the case as covered. Two days."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 137,
+          "text": "Any production incidents since Friday?"
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 145,
+          "text": "None. Seven clean days. Error budget for the ingestion path is still above 90%."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 158,
+          "text": "Last item, the worker image broke twice this week because the base image drifted. We're pinning the Python runtime today."
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 176,
+          "text": "Please also move the build to the same lockfile step as the API service so the two never disagree."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 192,
+          "text": "Yes, same lockfile. I'll do that as part of the pin so we only touch the pipeline once."
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 208,
+          "text": "I'll add a dashboard panel for the queue drain rate so we catch the next backlog before it pages us."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 224,
+          "text": "Perfect. That's standup, thanks everyone."
+        }
+      ],
+      "duration_target_seconds": 1034,
+      "tags": [
+        "engineering",
+        "standup"
+      ]
+    },
+    {
+      "id": "mtg_customer_discovery_call",
+      "title": "Customer Discovery Call — Northwind Labs",
+      "days_ago": 5,
+      "time": "15:30",
+      "host_name": "Priya Raghunathan",
+      "participants": [
+        "Priya Raghunathan",
+        "Aaron Kantor",
+        "Grace Lindqvist",
+        "Marcus Bell"
+      ],
+      "overview": "Discovery call with Northwind Labs about their post-meeting workflow. Grace described a four-person operations team drowning in CRM follow-ups, and confirmed that searchable meeting transcripts with assignable action items would replace their current shared spreadsheet. Marcus flagged a security review requirement before any pilot, and Priya will send a scoped pilot proposal with SSO questions.",
+      "key_points": [
+        "Northwind runs roughly 60 customer calls a month and every follow-up is manually copied into a spreadsheet.",
+        "The team loses about four hours a week re-listening to recordings to recover commitments.",
+        "Searchable transcripts with assignable action items would replace the spreadsheet entirely.",
+        "A security review covering retention and data residency is required before a pilot.",
+        "Pilot scope should cover the four-person operations team in one workspace."
+      ],
+      "topics": [
+        "Discovery",
+        "Workflow",
+        "Security Review",
+        "Pilot"
+      ],
+      "sections": [
+        {
+          "title": "Current workflow",
+          "timestamp_seconds": 0,
+          "bullets": [
+            "About 60 customer calls per month, each followed by a manual CRM update.",
+            "Four hours a week is spent re-listening to recordings to find commitments."
+          ]
+        },
+        {
+          "title": "What they need",
+          "timestamp_seconds": 356,
+          "bullets": [
+            "Searchable transcripts so anyone can find the exact promise made on a call.",
+            "Action items that can be assigned to a teammate directly from the meeting."
+          ]
+        },
+        {
+          "title": "Security and pilot",
+          "timestamp_seconds": 742,
+          "bullets": [
+            "Security review must confirm retention windows and data residency.",
+            "Pilot will start with the four-person operations team in a single workspace."
+          ]
+        }
+      ],
+      "action_items": [
+        {
+          "title": "Send a scoped pilot proposal with retention options",
+          "assignee": "Priya Raghunathan",
+          "due_in_days": 3,
+          "completed": false
+        },
+        {
+          "title": "Answer the Northwind security questionnaire",
+          "assignee": "Grace Lindqvist",
+          "due_in_days": 6,
+          "completed": false
+        },
+        {
+          "title": "Map their CRM fields to our action item schema",
+          "assignee": "Marcus Bell",
+          "due_in_days": 8,
+          "completed": false
+        },
+        {
+          "title": "Share the retention documentation folder",
+          "assignee": "Aaron Kantor",
+          "due_in_days": 2,
+          "completed": true
+        }
+      ],
+      "transcript": [
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 0,
+          "text": "Thanks for making time. Before we show anything, tell me how your team handles follow-ups after a customer call."
+        },
+        {
+          "speaker": "Grace Lindqvist",
+          "start": 15,
+          "text": "Honestly it's a spreadsheet. Someone re-listens to the recording, types the commitments, then pastes them into the CRM."
+        },
+        {
+          "speaker": "Marcus Bell",
+          "start": 36,
+          "text": "We run about 60 customer calls a month across four people, so that spreadsheet has become a part-time job."
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 54,
+          "text": "How much time would you say goes into that recovery work every week?"
+        },
+        {
+          "speaker": "Grace Lindqvist",
+          "start": 63,
+          "text": "Roughly four hours a week just to find what was actually promised. And we still miss things."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 82,
+          "text": "When you miss something, what does that cost you?"
+        },
+        {
+          "speaker": "Marcus Bell",
+          "start": 91,
+          "text": "Usually a renewal conversation that starts badly. Last quarter we lost a follow-up that was promised in a kickoff call."
+        },
+        {
+          "speaker": "Grace Lindqvist",
+          "start": 112,
+          "text": "What I actually want is to search a transcript and see the exact promise, then assign it to whoever owns the account."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 130,
+          "text": "That's precisely what we're building. Would assignable action items replace the spreadsheet entirely?"
+        },
+        {
+          "speaker": "Grace Lindqvist",
+          "start": 146,
+          "text": "Yes, if the assignments surface somewhere the team already looks. Email or Slack, not another tab."
+        },
+        {
+          "speaker": "Marcus Bell",
+          "start": 165,
+          "text": "Security is my concern. Anything that stores customer conversations needs a review of retention and data residency."
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 184,
+          "text": "Understood. I'll send the security questionnaire answers with the retention options so your review isn't blocked on us."
+        },
+        {
+          "speaker": "Marcus Bell",
+          "start": 203,
+          "text": "That would help a lot. Can you confirm whether transcripts can be deleted per meeting on request?"
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 219,
+          "text": "Yes, deletion is per meeting and cascades to the notes and action items. I'll share the retention documentation folder today."
+        },
+        {
+          "speaker": "Grace Lindqvist",
+          "start": 238,
+          "text": "Then I'd like to pilot with the operations team first. Four people, one workspace, thirty days."
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 256,
+          "text": "That's a reasonable scope. I'll send a pilot proposal this week and Marcus, can you map your CRM fields to our action item schema?"
+        },
+        {
+          "speaker": "Marcus Bell",
+          "start": 274,
+          "text": "I can do that. Send me a sample export and I'll match the fields."
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 288,
+          "text": "Perfect. I'll include a sample with the proposal. Thank you both, this was really useful."
+        }
+      ],
+      "duration_target_seconds": 1925,
+      "tags": [
+        "sales",
+        "research",
+        "customer"
+      ]
+    },
+    {
+      "id": "mtg_sprint_planning",
+      "title": "Sprint Planning — Sprint 24",
+      "days_ago": 7,
+      "time": "10:00",
+      "host_name": "Aaron Kantor",
+      "participants": [
+        "Aaron Kantor",
+        "Maya Chen",
+        "Daniel Okafor",
+        "Priya Raghunathan",
+        "Sofia Almeida",
+        "Tom Whitaker"
+      ],
+      "overview": "Sprint 24 planning committed 34 points across the transcript notepad, the search relevance work and the queue hardening task. The team agreed to keep two points of buffer for support escalations and to move the export feature to Sprint 25. Sofia owns the queue work, Maya owns the notepad, and Daniel will write the acceptance criteria for the search relevance metric.",
+      "key_points": [
+        "Sprint 24 commits 34 points: 14 for the notepad, 12 for search relevance, 8 for queue hardening.",
+        "Two points of buffer are reserved for support escalations, a new working agreement.",
+        "Transcript export moves to Sprint 25 because it depends on the renderer refactor.",
+        "Search relevance will be measured by whether the expected segment appears in the top three results.",
+        "Definition of done now requires a seeded demo path for every user-facing feature."
+      ],
+      "topics": [
+        "Sprint Planning",
+        "Notepad",
+        "Search Relevance",
+        "Queue Hardening",
+        "Definition Of Done"
+      ],
+      "sections": [
+        {
+          "title": "Committed scope",
+          "timestamp_seconds": 0,
+          "bullets": [
+            "34 points total with 14 points on the notepad and 12 on search relevance.",
+            "Export is explicitly deferred to Sprint 25 pending the renderer refactor."
+          ]
+        },
+        {
+          "title": "Capacity and buffer",
+          "timestamp_seconds": 486,
+          "bullets": [
+            "Two points of buffer reserved for support escalations as a standing agreement.",
+            "Tom is out for two days, so the flaky test work is scoped to a single task."
+          ]
+        },
+        {
+          "title": "Measurement and done",
+          "timestamp_seconds": 934,
+          "bullets": [
+            "Relevance is measured by the expected segment appearing in the top three results.",
+            "Every user-facing feature ships with a seeded demo path so reviews stay fast."
+          ]
+        }
+      ],
+      "action_items": [
+        {
+          "title": "Break the notepad refresh into estimable tickets",
+          "assignee": "Maya Chen",
+          "due_in_days": 2,
+          "completed": false
+        },
+        {
+          "title": "Write acceptance criteria for the search relevance metric and book the review",
+          "assignee": "Daniel Okafor",
+          "due_in_days": 4,
+          "completed": false
+        },
+        {
+          "title": "Harden the queue with the batch-size canary",
+          "assignee": "Sofia Almeida",
+          "due_in_days": 7,
+          "completed": false
+        },
+        {
+          "title": "Add seeded demo paths to the definition of done",
+          "assignee": "Aaron Kantor",
+          "due_in_days": 5,
+          "completed": true
+        },
+        {
+          "title": "Move the export epic to Sprint 25 in the tracker",
+          "assignee": "Priya Raghunathan",
+          "due_in_days": 1,
+          "completed": true
+        }
+      ],
+      "transcript": [
+        {
+          "speaker": "Aaron Kantor",
+          "start": 0,
+          "text": "Sprint 24 planning. We have 36 points of capacity and I'd like to commit a little less than that."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 14,
+          "text": "The notepad refresh is ready to be split. Structure changes are four points, the active row work is six, and spacing polish is another four."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 38,
+          "text": "That puts fourteen points on the notepad. Realistic, but only if the design tokens land on Monday."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 54,
+          "text": "Elena committed to that. If the tokens slip I'll start with the structure work, it doesn't depend on them."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 72,
+          "text": "Good risk management. What about search relevance?"
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 81,
+          "text": "We estimate twelve points for the relevance work, but we need a measurement that isn't vibes. Otherwise we'll argue for a month."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 100,
+          "text": "I'll write the acceptance criteria. Proposal: for a set of twenty labelled queries, the expected segment appears in the top three results."
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 122,
+          "text": "That's measurable and it matches what users actually do, they open the first few matches and stop."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 138,
+          "text": "Then that's the metric. Daniel owns the criteria, four days."
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 147,
+          "text": "Queue hardening is eight points. The batch-size canary plus the drain-rate dashboard, and I'd like to keep them in the same sprint so we see the effect."
+        },
+        {
+          "speaker": "Tom Whitaker",
+          "start": 168,
+          "text": "I'm out for two days next week, so let's scope my flaky test work to the single upload test rather than the family of three."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 186,
+          "text": "Noted. And I want us to reserve two points of buffer for support escalations. That's a standing agreement from now on."
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 205,
+          "text": "That's reasonable. Last sprint we over-committed by three points and it showed in the review."
+        },
+        {
+          "speaker": "Maya Chen",
+          "start": 219,
+          "text": "Where does export land? It was tentatively in this sprint."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 227,
+          "text": "It depends on the renderer refactor, which isn't done. If we pull it in now we'll be shipping a second PDF path."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 245,
+          "text": "Then export moves to Sprint 25. Priya, can you move the epic in the tracker today?"
+        },
+        {
+          "speaker": "Priya Raghunathan",
+          "start": 259,
+          "text": "Done after this call. I'll add a note explaining the dependency so nobody re-opens it."
+        },
+        {
+          "speaker": "Tom Whitaker",
+          "start": 271,
+          "text": "One process thing. Can we require a seeded demo path for every user-facing feature? I lost twenty minutes staging data last review."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 291,
+          "text": "Yes, that goes into the definition of done. I'll update the wiki and tell the wider team."
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 306,
+          "text": "Then we're at thirty-four points plus two of buffer. I'm comfortable with that."
+        },
+        {
+          "speaker": "Aaron Kantor",
+          "start": 318,
+          "text": "Committed. Sprint 24 starts tomorrow, thanks everyone."
+        }
+      ],
+      "duration_target_seconds": 3138,
+      "tags": [
+        "planning",
+        "engineering",
+        "sprint-24"
+      ]
+    },
+    {
+      "id": "mtg_incident_review",
+      "title": "Incident Review — Transcript Delay",
+      "days_ago": 11,
+      "time": "16:00",
+      "host_name": "Sofia Almeida",
+      "participants": [
+        "Sofia Almeida",
+        "Daniel Okafor",
+        "Tom Whitaker"
+      ],
+      "overview": "Incident review for the 42-minute transcript delay on the ingestion path. Root cause was a retry loop that amplified a slow storage call into a queue storm. The team agreed on exponential backoff with jitter, a circuit breaker on the storage client and a dedicated alert for queue age rather than queue depth. Tom will add the regression test and the postmortem will be shared with support.",
+      "key_points": [
+        "Impact: transcripts were delayed up to 42 minutes for 310 meetings; no data was lost.",
+        "Root cause was a retry loop without backoff amplifying a slow storage call into a queue storm.",
+        "Fix: exponential backoff with jitter plus a circuit breaker on the storage client.",
+        "Alerting must watch queue age, not queue depth, because depth alone missed the incident.",
+        "Postmortem will be shared with support so first-line answers are consistent."
+      ],
+      "topics": [
+        "Incident",
+        "Retries",
+        "Alerting",
+        "Reliability"
+      ],
+      "sections": [
+        {
+          "title": "Impact and timeline",
+          "timestamp_seconds": 0,
+          "bullets": [
+            "310 meetings delayed up to 42 minutes between 09:12 and 09:54.",
+            "Detection came from a customer report, not from monitoring."
+          ]
+        },
+        {
+          "title": "Root cause",
+          "timestamp_seconds": 322,
+          "bullets": [
+            "A retry loop without backoff turned one slow storage call into thousands of retries.",
+            "Queue depth stayed inside its threshold, which is why the alert never fired."
+          ]
+        },
+        {
+          "title": "Follow-ups",
+          "timestamp_seconds": 688,
+          "bullets": [
+            "Exponential backoff with jitter and a circuit breaker on the storage client.",
+            "New alert on queue age with a fifteen-minute page threshold."
+          ]
+        }
+      ],
+      "action_items": [
+        {
+          "title": "Add exponential backoff with jitter to the storage client",
+          "assignee": "Daniel Okafor",
+          "due_in_days": 2,
+          "completed": false
+        },
+        {
+          "title": "Add an alert on queue age with a 15 minute threshold",
+          "assignee": "Sofia Almeida",
+          "due_in_days": 3,
+          "completed": false
+        },
+        {
+          "title": "Write a regression test for the retry storm",
+          "assignee": "Tom Whitaker",
+          "due_in_days": 6,
+          "completed": false
+        },
+        {
+          "title": "Share the postmortem with the support team",
+          "assignee": "Sofia Almeida",
+          "due_in_days": 1,
+          "completed": true
+        }
+      ],
+      "transcript": [
+        {
+          "speaker": "Sofia Almeida",
+          "start": 0,
+          "text": "This is a blameless review of the transcript delay yesterday morning. Tom, you were on call, can you walk the timeline?"
+        },
+        {
+          "speaker": "Tom Whitaker",
+          "start": 17,
+          "text": "At 09:12 the ingestion path slowed. By 09:20 the queue had thousands of pending retries and transcripts were arriving up to 42 minutes late."
+        },
+        {
+          "speaker": "Tom Whitaker",
+          "start": 41,
+          "text": "We heard about it from a customer at 09:38, which is the part that bothers me most, because our own alerts never fired."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 60,
+          "text": "I cleared it by 09:54 when I drained the retry backlog and the storage call recovered. Nothing was lost, 310 meetings were delayed."
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 79,
+          "text": "Let's talk about the cause. What actually triggered the storm?"
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 90,
+          "text": "A single slow storage call. The client retried immediately with no backoff, so each retry spawned more work. It was a self-inflicted amplification."
+        },
+        {
+          "speaker": "Tom Whitaker",
+          "start": 111,
+          "text": "And the queue depth metric stayed inside its threshold the whole time, because jobs were being picked up, just not finished."
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 129,
+          "text": "So our alert was measuring the wrong thing. Queue depth said healthy while queue age was screaming."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 146,
+          "text": "Exactly. I'll add exponential backoff with jitter to the storage client and put a circuit breaker in front of it."
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 165,
+          "text": "I'll add an alert on queue age with a fifteen minute page threshold. That would have fired at 09:15."
+        },
+        {
+          "speaker": "Tom Whitaker",
+          "start": 181,
+          "text": "I'll write a regression test that simulates the slow storage call and asserts we stop retrying. Without that, the backoff will get removed by someone in six months."
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 203,
+          "text": "Good. Two more things: the postmortem goes to support so first-line answers are consistent, and we add this scenario to the runbook."
+        },
+        {
+          "speaker": "Daniel Okafor",
+          "start": 221,
+          "text": "Should we also cap total retries? A hard ceiling would have bounded the blast radius regardless of backoff."
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 238,
+          "text": "Yes, ceiling plus backoff. I don't want one failure mode to depend on a single mitigation."
+        },
+        {
+          "speaker": "Tom Whitaker",
+          "start": 254,
+          "text": "Agreed. That's everything from my side."
+        },
+        {
+          "speaker": "Sofia Almeida",
+          "start": 262,
+          "text": "Thanks both. Postmortem is written, I'll share it with support and we close the follow-ups next week."
+        }
+      ],
+      "duration_target_seconds": 1290,
+      "tags": [
+        "incident",
+        "engineering",
+        "postmortem"
+      ]
+    }
+  ]
+}
