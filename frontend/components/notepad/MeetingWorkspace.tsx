@@ -500,8 +500,6 @@ export function MeetingWorkspace({ meetingId }: { meetingId: string }) {
       </div>
 
       <MediaPlayer
-        meetingId={meeting.id}
-        meetingTitle={meeting.title}
         currentTime={currentTime}
         duration={duration}
         playing={playing}

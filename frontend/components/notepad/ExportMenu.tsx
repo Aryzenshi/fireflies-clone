@@ -32,7 +32,15 @@ const FORMATS: { id: ExportFormat; label: string; description: string; icon: Rea
  * Export menu for the notepad: asks the API for a rendered document and saves it
  * with the filename the server chose (date + slugged title).
  */
-export function ExportMenu({ meetingId, meetingTitle }: { meetingId: string; meetingTitle: string }) {
+export function ExportMenu({
+  meetingId,
+  meetingTitle,
+  ariaLabel,
+}: {
+  meetingId: string;
+  meetingTitle: string;
+  ariaLabel?: string;
+}) {
   const { success, error } = useToast();
   const [busy, setBusy] = useState<ExportFormat | null>(null);
 
@@ -74,7 +82,7 @@ export function ExportMenu({ meetingId, meetingTitle }: { meetingId: string; mee
         <button
           type="button"
           onClick={toggle}
-          aria-label={`Export ${meetingTitle}`}
+          aria-label={ariaLabel ?? `Export ${meetingTitle}`}
           className="inline-flex h-[28px] items-center gap-1.5 rounded-[7px] border border-border px-2 text-[11.5px] text-muted transition-colors hover:bg-surface"
         >
           <DownloadIcon size={13} />

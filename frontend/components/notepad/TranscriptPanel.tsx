@@ -202,7 +202,7 @@ export function TranscriptPanel({
             Follow
           </button>
 
-          <ExportMenu meetingId={meetingId} meetingTitle={meetingTitle} />
+          <ExportMenu meetingId={meetingId} meetingTitle={meetingTitle} ariaLabel="Transcript export options" />
 
           <button
             type="button"

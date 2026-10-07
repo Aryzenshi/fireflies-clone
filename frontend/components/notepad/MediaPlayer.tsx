@@ -9,8 +9,6 @@ import { formatDuration } from "@/lib/format";
 import type { TranscriptSegment } from "@/lib/types";
 
 export interface MediaPlayerProps {
-  meetingId: string;
-  meetingTitle: string;
   currentTime: number;
   duration: number;
   playing: boolean;
@@ -28,8 +26,6 @@ export interface MediaPlayerProps {
  * (`currentTime` is owned by MeetingWorkspace — see Architecture.md §6).
  */
 export function MediaPlayer({
-  meetingId,
-  meetingTitle,
   currentTime,
   duration,
   playing,

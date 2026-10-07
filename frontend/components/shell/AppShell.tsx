@@ -13,16 +13,15 @@ import { usePathname } from "next/navigation";
 function FloatingChatButton() {
   const { info } = useToast();
   const pathname = usePathname();
-
-  if (pathname?.startsWith("/meeting/")) {
-    return null;
-  }
+  const isMeeting = Boolean(pathname?.startsWith("/meetings/"));
 
   return (
     <button
       type="button"
       onClick={() => info("AI Assistant", "Chat is a placeholder in this build.")}
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-[#4638f3] px-4 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
+      className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-[#4638f3] px-4 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105 ${
+        isMeeting ? "pointer-events-none opacity-0" : ""
+      }`}
     >
       <ChatIcon size={18} /> Chat
     </button>
