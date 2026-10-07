@@ -106,7 +106,7 @@ export function HomeDashboard() {
         <StatCard
           label="Transcript time"
           value={stats.data ? `${stats.data.transcript_minutes} min` : "—"}
-          hint={stats.data ? `${stats.data.transcription_minutes_left} of ${stats.data.transcription_minutes_quota} mins left` : "Loading usage"}
+          hint={stats.data ? `${stats.data.transcription_minutes_quota - stats.data.transcript_minutes} of ${stats.data.transcription_minutes_quota} mins left` : "Loading usage"}
           icon={<ClockIcon size={14} />}
         />
         <StatCard

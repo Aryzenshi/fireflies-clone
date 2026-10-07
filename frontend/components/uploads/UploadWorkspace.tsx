@@ -87,6 +87,7 @@ export function UploadWorkspace() {
         "Transcript imported",
         `${created.transcript.segments.length} segments parsed and AI notes generated.`,
       );
+      window.dispatchEvent(new Event("refresh-stats"));
       router.push(`/meetings/${created.id}`);
     } catch (caught) {
       const message = errorMessage(caught);

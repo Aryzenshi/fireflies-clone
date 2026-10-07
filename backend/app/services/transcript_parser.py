@@ -360,7 +360,13 @@ def parse_transcript(content: str, filename: str | None = None) -> list[dict[str
 
     fmt = detect_format(filename, content)
     if fmt == "json":
-        return normalize_segments(parse_json(content))
+        try:
+            return normalize_segments(parse_json(content))
+        except TranscriptParseError:
+            if filename:
+                raise
+            # If it was a pasted transcript that just happened to start with [ or {, fallback to TXT
+            return normalize_segments(parse_txt(content))
     if fmt == "vtt":
         return normalize_segments(parse_vtt(content))
     return normalize_segments(parse_txt(content))
