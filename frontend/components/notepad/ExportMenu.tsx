@@ -40,9 +40,11 @@ export function ExportMenu({ meetingId, meetingTitle }: { meetingId: string; mee
       anchor.download = filename;
       document.body.append(anchor);
       anchor.click();
-      anchor.remove();
-      // Revoke on the next tick so the download has started in every browser.
-      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      // Remove and revoke on the next tick so the download has started in every browser.
+      window.setTimeout(() => {
+        anchor.remove();
+        URL.revokeObjectURL(url);
+      }, 1000);
       success("Export ready", `${filename} was downloaded.`);
     } catch (caught) {
       error("Could not export this meeting", errorMessage(caught));

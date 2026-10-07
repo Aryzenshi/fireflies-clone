@@ -358,6 +358,9 @@ test("meeting title and participants edits persist", async ({ page }) => {
     const detail = await (await page.request.get(`${API}/meetings/${meetingId}`)).json();
     await page.goto(`/meetings/${meetingId}`);
 
+    // Hide the chat button so it doesn't overlap the Export button in the player bar.
+    await page.getByRole("button", { name: "Chat" }).evaluate((b) => (b.style.display = "none")).catch(() => {});
+
     // Markdown download: the trigger is a real download, so assert filename + content.
     const [markdownDownload] = await Promise.all([
       page.waitForEvent("download"),
