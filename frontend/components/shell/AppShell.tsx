@@ -5,7 +5,21 @@ import { useEffect, useState } from "react";
 import { Sidebar } from "@/components/shell/Sidebar";
 import { Topbar } from "@/components/shell/Topbar";
 import { ToastViewport } from "@/components/ui/ToastViewport";
-import { ToastProvider } from "@/hooks/useToast";
+import { ToastProvider, useToast } from "@/hooks/useToast";
+import { ChatIcon } from "@/components/icons";
+
+function FloatingChatButton() {
+  const { info } = useToast();
+  return (
+    <button
+      type="button"
+      onClick={() => info("AI Assistant", "Chat is a placeholder in this build.")}
+      className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-[#4638f3] px-4 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-105"
+    >
+      <ChatIcon size={18} /> Chat
+    </button>
+  );
+}
 
 /**
  * Fixed sidebar + top bar + scrollable content area, matching the reference app.
@@ -63,6 +77,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <main className="scroll-area min-h-0 flex-1 bg-canvas">{children}</main>
         </div>
       </div>
+      <FloatingChatButton />
       <ToastViewport />
     </ToastProvider>
   );

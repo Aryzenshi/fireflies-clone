@@ -54,12 +54,12 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       <Link
         href="/"
         onClick={onNavigate}
-        className="flex h-[52px] shrink-0 items-center gap-2 px-5"
+        className="flex h-[52px] shrink-0 items-center gap-2 px-5 mt-[10px]"
         aria-label="fireflies.ai home"
       >
-        <LogoMark size={24} />
-        <span className="text-[16px] font-semibold tracking-tight text-white">
-          fireflies<span className="text-sidebar-muted">.ai</span>
+        <LogoMark size={28} />
+        <span className="text-[18.5px] font-semibold font-heading tracking-tight text-white">
+          fireflies.ai
         </span>
       </Link>
 
@@ -76,14 +76,14 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                   onClick={onNavigate}
                   aria-current={active ? "page" : undefined}
                   className={[
-                    "relative flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] leading-tight transition-colors",
+                    "relative flex items-center gap-3 px-3 py-2 text-[13px] leading-tight transition-colors",
                     active
-                      ? "bg-sidebar-active font-medium text-white"
+                      ? "bg-sidebar-active font-medium text-white border-r-[5px] border-[#6d71f0]"
                       : "text-sidebar-text/90 hover:bg-sidebar-hover",
                   ].join(" ")}
                 >
                   <Icon size={16} />
-                  <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                  <span className="min-w-0 shrink truncate">{item.label}</span>
                   {item.badge ? (
                     <span className="rounded-full bg-primary px-1.5 py-[2px] text-[10px] font-semibold text-white">
                       {item.badge}
@@ -96,8 +96,8 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         ))}
       </nav>
 
-      <div className="hidden shrink-0 px-2.5 pb-3 [@media(min-height:640px)]:block">
-        <div className="rounded-[10px] border border-white/10 bg-white/5 p-2.5">
+      <div className="shrink-0 mt-auto">
+        <div className="border-t border-white/10 bg-white/5 p-4 rounded-none">
           <div className="flex items-center gap-1.5">
             <span aria-hidden="true" className="text-[13px]">
               🪙
@@ -110,12 +110,11 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           <button
             type="button"
             onClick={() => info("Referral link copied", "Sharing is a placeholder in this build.")}
-            className="mt-2 h-[26px] w-full rounded-[7px] bg-primary text-[11.5px] font-medium text-white transition-colors hover:bg-primary-hover"
+            className="mt-2 h-[26px] w-full rounded-sm bg-primary text-[11.5px] font-medium text-white transition-colors hover:bg-primary-hover"
           >
             Refer
           </button>
         </div>
-        <p className="mt-2.5 px-0.5 text-[10px] text-sidebar-muted">Demo workspace · assignment build</p>
       </div>
     </aside>
   );

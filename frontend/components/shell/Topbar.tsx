@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from "react";
 import {
   ListIcon,
   SearchIcon,
-  SparklesIcon,
   StatusIcon,
   TeamIcon,
   WaveIcon,
@@ -77,7 +76,7 @@ export function Topbar({
         <ListIcon size={17} />
       </button>
 
-      <p className="hidden min-w-[86px] shrink-0 text-[13.5px] font-semibold text-ink md:block">
+      <p className="hidden min-w-[86px] shrink-0 text-[13.5px] font-semibold font-heading text-ink md:block">
         {pageTitle(pathname)}
       </p>
 
@@ -89,7 +88,7 @@ export function Topbar({
           onChange={(event) => setTerm(event.target.value)}
           placeholder="Search meetings, transcripts..."
           aria-label="Search meetings"
-          className="h-[34px] w-full rounded-[10px] border border-border bg-surface pl-9 pr-20 text-[12.5px] text-ink placeholder:text-muted-soft focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/12"
+          className="h-[34px] w-full rounded-sm border border-border bg-surface pl-9 pr-20 text-[12.5px] text-ink placeholder:text-muted-soft focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/12"
         />
         <span className="pointer-events-none absolute right-2.5 top-1/2 hidden -translate-y-1/2 items-center gap-1.5 md:flex">
           <kbd className="rounded border border-border bg-white px-1 py-[1px] text-[10px] font-medium text-muted">Ctrl</kbd>
@@ -97,28 +96,25 @@ export function Topbar({
         </span>
       </form>
 
-      <button
-        type="button"
-        onClick={() =>
-          info("AskFred is not part of this build", "LLM meeting chat is a bonus feature in the assignment brief.")
-        }
-        className="hidden items-center gap-1 rounded-full border border-primary-border bg-primary-soft px-2 py-[3px] text-[11px] font-medium text-primary-hover transition-colors hover:bg-[#e7e2ff] md:inline-flex"
-      >
-        <SparklesIcon size={12} />
-        AskFred
-      </button>
 
       <div className="ml-auto flex items-center gap-3">
+        <Link
+          href="/coming-soon/upgrade"
+          className="hidden h-[28px] items-center rounded-sm bg-orange-100 px-3 text-[11px] font-semibold tracking-wide text-orange-600 transition-colors hover:bg-orange-200 lg:inline-flex"
+        >
+          UPGRADE
+        </Link>
+
         <div className="hidden items-center gap-3 border-l border-border pl-3 2xl:flex">
           <div className="flex items-center gap-1.5">
             <StatusIcon size={14} className="text-muted" />
             <div className="leading-tight">
               <p className="text-[10px] text-muted">Transcription</p>
-              <p className="text-[10.5px] font-medium text-success">
+              <p className="text-[10.5px] font-medium text-[#e8b487]">
                 {minutesLeft === null ? (
                   <Spinner size={10} className="text-muted" />
                 ) : (
-                  `${minutesLeft} mins left`
+                  `${Math.max(0, 100 - Math.floor((quota - minutesLeft) / 5))} credits`
                 )}
               </p>
             </div>
@@ -127,25 +123,18 @@ export function Topbar({
             <WaveIcon size={14} className="text-muted" />
             <div className="leading-tight">
               <p className="text-[10px] text-muted">Storage</p>
-              <p className="text-[10.5px] font-medium text-success">
-                {stats.data ? `${stats.data.transcript_minutes} / ${quota} min` : "—"}
+              <p className="text-[10.5px] font-medium text-[#4ade80]">
+                {stats.data ? `${quota - stats.data.transcript_minutes} mins left / ${quota} mins` : "—"}
               </p>
             </div>
           </div>
         </div>
 
-        <Link
-          href="/coming-soon/upgrade"
-          className="hidden h-[28px] items-center rounded-[7px] bg-accent-orange px-3 text-[11px] font-semibold tracking-wide text-white transition-colors hover:bg-[#e0812e] lg:inline-flex"
-        >
-          UPGRADE
-        </Link>
-
         <button
           type="button"
           onClick={() => info("Inviting teammates is out of scope", "This build assumes a single signed-in user.")}
           aria-label="Invite teammates"
-          className="hidden h-[28px] w-[28px] items-center justify-center rounded-[8px] bg-primary text-white transition-colors hover:bg-primary-hover sm:flex"
+          className="hidden h-[28px] w-[28px] items-center justify-center rounded-sm bg-primary text-white transition-colors hover:bg-primary-hover sm:flex"
         >
           <TeamIcon size={15} />
         </button>
@@ -158,12 +147,12 @@ export function Topbar({
               type="button"
               onClick={toggle}
               aria-label="Open account menu"
-              className="flex items-center rounded-[8px]"
+              className="flex items-center rounded-sm"
             >
               {user.data ? (
                 <Avatar name={user.data.name} size={26} shape="square" />
               ) : (
-                <span className="h-[26px] w-[26px] rounded-[8px] bg-surface-muted" />
+                <span className="h-[26px] w-[26px] rounded-sm bg-surface-muted" />
               )}
             </button>
           )}

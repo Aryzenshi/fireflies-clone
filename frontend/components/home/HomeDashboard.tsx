@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import { ArrowRightIcon, ClockIcon, MeetingsIcon, SparklesIcon, UploadIcon, CheckCircleIcon, TeamIcon } from "@/components/icons";
+import { ArrowRightIcon, ClockIcon, MeetingsIcon, UploadIcon, CheckCircleIcon, TeamIcon } from "@/components/icons";
 import { MeetingCreateModal } from "@/components/meetings/MeetingCreateModal";
 import { MeetingTable } from "@/components/meetings/MeetingTable";
 import { Button } from "@/components/ui/Button";
@@ -189,28 +189,7 @@ export function HomeDashboard() {
             </div>
           </div>
 
-          <div className="rounded-[12px] border border-border bg-white p-3.5">
-            <div className="flex items-center gap-2">
-              <span className="flex h-6 w-6 items-center justify-center rounded-[7px] bg-primary-soft text-primary">
-                <SparklesIcon size={13} />
-              </span>
-              <h3 className="text-[13px] font-semibold text-ink">AskFred</h3>
-              <span className="ml-auto rounded-full border border-border px-1.5 py-[1px] text-[10px] text-muted">
-                Coming soon
-              </span>
-            </div>
-            <p className="mt-2 text-[11.5px] leading-relaxed text-muted">
-              Chat with your meetings using an LLM. Listed as a bonus feature in the assignment brief, so it is a
-              placeholder in this build.
-            </p>
-            <button
-              type="button"
-              onClick={() => toast.info("AskFred is not implemented", "LLM meeting chat is a bonus feature.")}
-              className="mt-2.5 text-[11.5px] font-medium text-primary hover:underline"
-            >
-              Read what is implemented
-            </button>
-          </div>
+
         </aside>
       </div>
 
