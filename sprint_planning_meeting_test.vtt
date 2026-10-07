@@ -1,0 +1,45 @@
+WEBVTT
+
+NOTE
+Meeting: Product Sprint Planning
+Participants: Aaron, Priya, Rahul, Neha
+Duration: 00:04:30
+
+00:00:00.000 --> 00:00:18.000
+<v Aaron>Good morning everyone. Today I want to finalize the scope for the next sprint and make sure we agree on the three highest-priority items.</v>
+
+00:00:18.000 --> 00:00:38.000
+<v Priya>The first priority should be the meeting search. Users need to find transcripts quickly, especially when they have a large number of meetings.</v>
+
+00:00:38.000 --> 00:00:58.000
+<v Rahul>Agreed. I can implement the backend search endpoint and add filters for date range and participant. I should have the API ready by Wednesday.</v>
+
+00:00:58.000 --> 00:01:18.000
+<v Neha>For the frontend, I'll build the search interface and connect it to the endpoint. I'll also add an empty state when no meetings match the query.</v>
+
+00:01:18.000 --> 00:01:40.000
+<v Aaron>Great. Second priority is transcript navigation. Clicking a transcript segment should move the player to that timestamp, and playback should highlight the active segment.</v>
+
+00:01:40.000 --> 00:02:00.000
+<v Priya>I'll take the transcript highlighting work. We should also make sure speaker labels remain visible while the user scrolls through the transcript.</v>
+
+00:02:00.000 --> 00:02:22.000
+<v Rahul>I can handle the player integration. I'll expose the current playback position so the transcript can stay synchronized with it.</v>
+
+00:02:22.000 --> 00:02:45.000
+<v Neha>The third priority should be action items. Users need to create, edit, complete, and delete action items directly from the meeting page.</v>
+
+00:02:45.000 --> 00:03:05.000
+<v Aaron>Let's also capture an owner and due date for every action item. That will make the list much more useful after the meeting.</v>
+
+00:03:05.000 --> 00:03:25.000
+<v Priya>I'll review the action item form and make sure validation is clear. We should prevent saving an item without a title.</v>
+
+00:03:25.000 --> 00:03:48.000
+<v Rahul>I'll add the API operations for creating, updating, completing, and deleting action items, including persistence in SQLite.</v>
+
+00:03:48.000 --> 00:04:08.000
+<v Neha>I'll add a small confirmation toast after an action item is completed or deleted, so users know the operation succeeded.</v>
+
+00:04:08.000 --> 00:04:30.000
+<v Aaron>Perfect. So the sprint priorities are search, transcript synchronization, and action item management. Rahul owns the backend work, Priya owns transcript and form validation, and Neha owns the frontend interaction details. Let's check progress on Wednesday.</v>

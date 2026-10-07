@@ -89,7 +89,7 @@ A faithful clone of the **Fireflies.ai Notepad / Meeting Library** experience. R
 ### ⬆️ Uploads (`/uploads`)
 
 - Tabbed **Upload file / Paste transcript** interface with drag-and-drop
-- Accepts **TXT**, **VTT**, and **JSON** transcript formats
+- Accepts **TXT**, **VTT**, and **JSON** transcript formats (a sample `sprint_planning_meeting_test.vtt` is included in the repository root)
 - Clear error toasts for unsupported file types
 
 ### 🎨 Shell & Navigation
