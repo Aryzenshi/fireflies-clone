@@ -108,7 +108,7 @@ A faithful clone of the **Fireflies.ai Notepad / Meeting Library** experience. R
 | **Frontend** | Next.js 15 (App Router), React 19, TypeScript 5.7 (strict), Tailwind CSS 4 |
 | **Backend** | Python 3.11+, FastAPI 0.142, Uvicorn, Pydantic v2 |
 | **Database** | SQLite + SQLAlchemy 2.x (declarative, typed `Mapped[...]` models) |
-| **Testing** | Vitest 3 (unit), Playwright 1.63 (E2E), pytest (backend) |
+| **Testing** | Vitest 5 (unit), Playwright 1.63 (E2E), pytest (backend) |
 | **API** | RESTful JSON under `/api` with consistent error responses |
 
 ---
@@ -117,7 +117,7 @@ A faithful clone of the **Fireflies.ai Notepad / Meeting Library** experience. R
 
 ### Prerequisites
 
-- **Node.js** 20+
+- **Node.js** 22.12+ (required by Vitest 5)
 - **Python** 3.11+
 
 ### 1. Clone the repository
@@ -401,7 +401,7 @@ A comprehensive security audit has been completed. See [`SECURITY.md`](SECURITY.
 - Parameterized queries via SQLAlchemy ORM (no raw SQL)
 - Pydantic `extra="forbid"` prevents mass assignment
 - File uploads processed in-memory only (no disk writes)
-- 1 MB upload size limit enforced server-side
+- 10 MB upload size limit enforced server-side
 
 ---
 
