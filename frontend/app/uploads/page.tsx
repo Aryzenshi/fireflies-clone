@@ -1,7 +1,7 @@
 import { UploadWorkspace } from "@/components/uploads/UploadWorkspace";
 
 export const metadata = {
-  title: "Uploads — fireflies.ai workspace",
+  title: "Uploads — Fireflies.ai workspace",
 };
 
 export default function UploadsPage() {

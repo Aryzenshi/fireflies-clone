@@ -4,7 +4,7 @@ import { MeetingLibrary } from "@/components/meetings/MeetingLibrary";
 import { TableSkeleton } from "@/components/ui/States";
 
 export const metadata = {
-  title: "Meetings — fireflies.ai workspace",
+  title: "Meetings — Fireflies.ai workspace",
 };
 
 function LibraryFallback() {

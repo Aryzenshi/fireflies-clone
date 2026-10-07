@@ -1,7 +1,7 @@
 import { SettingsPlaceholder } from "@/components/settings/SettingsPlaceholder";
 
 export const metadata = {
-  title: "Settings — fireflies.ai workspace",
+  title: "Settings — Fireflies.ai workspace",
 };
 
 export default function SettingsPage() {

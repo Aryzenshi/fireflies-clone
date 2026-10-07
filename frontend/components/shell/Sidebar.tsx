@@ -55,11 +55,11 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         href="/"
         onClick={onNavigate}
         className="flex h-[52px] shrink-0 items-center gap-2 px-5 mt-[10px]"
-        aria-label="fireflies.ai home"
+        aria-label="Fireflies.ai home"
       >
         <LogoMark size={28} />
         <span className="text-[18.5px] font-semibold font-heading tracking-tight text-white">
-          fireflies.ai
+          Fireflies.ai
         </span>
       </Link>
 

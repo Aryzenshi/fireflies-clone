@@ -43,7 +43,7 @@ Visual direction:
 - Width: 148 px at desktop reference size; allow 150–170 px depending on typography.
 - White/light-gray labels.
 - Active route gets a subtly lighter background and a purple vertical indicator on the right edge.
-- Logo at top with a simple original icon mark and `fireflies.ai`-style wordmark treatment; do not scrape proprietary asset files.
+- Logo at top with a simple original icon mark and `Fireflies.ai`-style wordmark treatment; do not scrape proprietary asset files.
 - Footer contains Upgrade / referral/profile-style blocks as visual placeholders.
 
 Navigation shown for visual fidelity:

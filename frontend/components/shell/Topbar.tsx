@@ -24,7 +24,7 @@ function pageTitle(pathname: string): string {
   if (pathname.startsWith("/uploads")) return "Uploads";
   if (pathname.startsWith("/settings")) return "Settings";
   const slug = pathname.split("/")[2];
-  return COMING_SOON_PAGES[slug]?.title ?? "fireflies.ai";
+  return COMING_SOON_PAGES[slug]?.title ?? "Fireflies.ai";
 }
 
 export function Topbar({
