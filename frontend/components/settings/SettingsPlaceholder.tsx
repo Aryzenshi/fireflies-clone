@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 import { BellIcon, ShieldIcon, TeamIcon, UpgradeIcon, SettingsIcon } from "@/components/icons";
 import { Avatar } from "@/components/ui/Avatar";
@@ -63,6 +64,12 @@ export function SettingsPlaceholder() {
   const user = useCurrentUser();
   const stats = useStats();
   const [toggled, setToggled] = useState<string[]>([]);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="mx-auto w-full max-w-[900px] px-5 py-5">
@@ -110,6 +117,39 @@ export function SettingsPlaceholder() {
             <dd className="text-[15px] font-semibold text-ink">{stats.data?.open_action_items ?? "—"}</dd>
           </div>
         </dl>
+      </div>
+
+      <div className="mt-4 rounded-[12px] border border-border bg-white p-4">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h2 className="text-[14.5px] font-semibold text-ink">Appearance</h2>
+            <p className="mt-0.5 text-[12.5px] text-muted">Customize the interface theme.</p>
+          </div>
+          {mounted ? (
+            <div className="flex items-center gap-1 rounded-[9px] border border-border bg-surface-muted p-1">
+              <button
+                type="button"
+                onClick={() => setTheme("light")}
+                className={`rounded-[6px] px-3 py-1.5 text-[12px] font-medium transition-colors ${
+                  theme === "light" ? "bg-white text-ink shadow-sm" : "text-muted hover:text-ink"
+                }`}
+              >
+                Light
+              </button>
+              <button
+                type="button"
+                onClick={() => setTheme("dark")}
+                className={`rounded-[6px] px-3 py-1.5 text-[12px] font-medium transition-colors ${
+                  theme === "dark" ? "bg-white text-ink shadow-sm" : "text-muted hover:text-ink"
+                }`}
+              >
+                Dark
+              </button>
+            </div>
+          ) : (
+            <div className="h-8 w-[116px] animate-pulse rounded-[9px] bg-surface-muted" />
+          )}
+        </div>
       </div>
 
       <div className="mt-4 grid gap-3 md:grid-cols-2">

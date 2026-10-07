@@ -94,6 +94,7 @@ A faithful clone of the **Fireflies.ai Notepad / Meeting Library** experience. R
 
 ### 🎨 Shell & Navigation
 
+- **Dark Mode**: A polished, application-wide dark theme. Toggle it from the Settings page (preference persists locally).
 - Dark sidebar with grouped navigation, active-row highlighting, and badges
 - Compact topbar with global search (`Ctrl/⌘ K`), credits chip, and profile menu
 - Placeholder pages for Home, Meeting Status, Playlist, Integrations, and more

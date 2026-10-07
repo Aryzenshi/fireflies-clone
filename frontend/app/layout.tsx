@@ -26,11 +26,15 @@ export const metadata: Metadata = {
   },
 };
 
+import { ThemeProvider } from "next-themes";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${inter.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <body className="font-sans">
-        <AppShell>{children}</AppShell>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <AppShell>{children}</AppShell>
+        </ThemeProvider>
       </body>
     </html>
   );

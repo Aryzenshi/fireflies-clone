@@ -61,6 +61,69 @@
   --animate-pop-in: pop-in 0.18s cubic-bezier(0.22, 1, 0.36, 1);
   --animate-toast-in: toast-in 0.2s cubic-bezier(0.22, 1, 0.36, 1);
   --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+
+  --color-panel: #ffffff;
+}
+
+/* ------------------------------------------------------------------ *
+ * Dark Mode Theme
+ * ------------------------------------------------------------------ */
+@layer base {
+  :root.dark {
+    --color-app: #0b0d12;
+    --color-canvas: #0b0d12;
+    
+    --color-panel: #131722; /* Card backgrounds */
+    
+    --color-surface: #1a202c; /* Notes column, inputs, hover fills */
+    --color-surface-muted: #222938; 
+    
+    --color-border: #2d3546;
+    --color-border-strong: #3b455d;
+
+    --color-ink: #f0f2f6;
+    --color-ink-soft: #a0abc0;
+    --color-muted: #718096;
+    --color-muted-soft: #4a5568;
+
+    --color-sidebar: #0e1117; 
+    --color-sidebar-hover: #1a202c;
+    --color-sidebar-active: #222938;
+    --color-sidebar-border: #2d3546;
+    --color-sidebar-text: #e7ecf4;
+    --color-sidebar-muted: #718096;
+
+    --color-primary: #8a84f6;
+    --color-primary-hover: #9c97f7;
+    --color-primary-soft: #282759;
+    --color-primary-border: #3b3a7a;
+
+    --color-accent-orange: #f2913d;
+    --color-accent-orange-soft: #3b281b;
+
+    --color-danger: #e25c6c;
+    --color-danger-soft: #3b1c20;
+    --color-success: #40a36c;
+    --color-success-soft: #162b20;
+
+    --color-highlight: #2c2859;
+    --color-highlight-active: #8a84f6;
+
+    --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-pop: 0 10px 30px rgba(0, 0, 0, 0.8), 0 2px 6px rgba(0, 0, 0, 0.6);
+    --shadow-modal: 0 24px 60px rgba(0, 0, 0, 0.9);
+  }
+
+  /* Override hardcoded bg-white utility classes to be dark in dark mode */
+  :root.dark .bg-white {
+    background-color: var(--color-panel) !important;
+  }
+  :root.dark .hover\:bg-white:hover {
+    background-color: var(--color-panel) !important;
+  }
+  :root.dark .focus\:bg-white:focus {
+    background-color: var(--color-panel) !important;
+  }
 }
 
 @keyframes fade-in {
